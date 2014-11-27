@@ -718,13 +718,31 @@ text{
   text-anchor:middle;
 }
 #dataBottomSearchDiv{
-  margin-top: 10px;
+  /*margin-top: 10px;*/
 }
 .searchdivdata{
   background-color: #ccc;padding: 2px 10px;
 }
 .searchdivdata input{
   width: 88%;margin-bottom: 0;border: 1px solid #ccc;background-color: #fff;border-radius: 50px;
+}
+.searchdivdata .mui-placeholder{
+  height: 38px;line-height: 38px;
+}
+#dataBottomSearchDiv .searchdivdata .mui-placeholder span{
+  float: none;line-height: normal;
+}
+.searchdivdata  .mui-icon{
+  float: right;margin-top: 5px;margin-left: 6px;
+}
+.dropdownsearch{
+  /*margin-top: 10px;*/
+}
+.dropdownsearch>div{
+  height: 35px;border-bottom: 1px solid #ccc;line-height: 35px;
+}
+.dropdownsearch .searchtitle{
+  /*height: 100%;*/
 }
 /*.circle {
   transition: stroke 0.3s, fill 0.3s;

@@ -5,6 +5,7 @@ var dataUrl={
 	domain:"http://42.120.17.217:8280/komrestservice",
 	statisUrl:"/other/statis"
 },dataObj={
+	chartHeightPec:0.55,//图表区的比例
 	rectWidth:30,    //矩形模块中每个矩形的宽度
 	marginWidth:30, //矩形模块之间的空白间距
 	rectMaxHeight:250, //通过计算获取
@@ -32,7 +33,8 @@ $(function(){
 	//
 	var dataTabWidth=setDataTabWidth(),tabSwipeWidth=dataTabWidth-$("body").width();
 	//读取默认配置信息，没有则添加默认配置信息
-	var cacheinfo=(Util.getCache(curUrl,Util.getStamp())).data;
+	var cacheinfo=Util.getCache(curUrl,Util.getStamp());
+	cacheinfo= cacheinfo ? cacheinfo.data : "";
 	if(!cacheinfo){
 		cacheinfo="q-92";
 		Util.setCache(curUrl,cacheinfo);
@@ -97,10 +99,20 @@ $(function(){
 });
 function setPageDivHeight(){
 	Util.getOs();
-	var height=Util.os.height,chartdivheight=parseInt(height*0.55),width=Util.os.width;
+	var height=Util.os.height;
+	if(height<580 && height>480){
+		dataObj.chartHeightPec=0.6;
+	}
+	if(height<680 && height>=580 ){
+		dataObj.chartHeightPec=0.65;
+	}
+	var chartdivheight=parseInt(height*dataObj.chartHeightPec),width=Util.os.width;
 	$("#dataChartDiv").height(chartdivheight);
 	dataObj.svgHeight=chartdivheight-25;
 	$(".posSys").attr({"width":width,"height":chartdivheight-25,"viewBox":"0 0 "+width+" "+dataObj.svgHeight});
+	if(dataObj.chartHeightPec > 0.55){
+		$(".dropdownsearch>div").css({height:"40px","line-height":"40px"});
+	}
 }
 function setDataTabWidth(){
 	var tabwidth=0;
