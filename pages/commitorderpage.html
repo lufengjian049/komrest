@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="format-detection" content="telephone=no" />
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
+		 <link rel="stylesheet" type="text/css" href="../css/mcss-1.1.css" /> 
+	<!--	<link rel="stylesheet" type="text/css" href="../css/komh6.css" />-->
+		<script src="../js/zepto.min.js" type="text/javascript" charset="utf-8"></script>
+
+		<!--<script src="../js/iscroll.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/util.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/mjs-2.5-debug.js" type="text/javascript" charset="utf-8"></script>-->
+	
+        <script src="../js/mjs-2.2.min.js" type="text/javascript" charset="utf-8"></script>
+
+	</head>
+
+	<body style="overflow: hidden;">
+		<input type="hidden" id="huserid" />
+		<input type="hidden" id="hcommitpre" />
+		<input type="hidden" id="horderpre" />
+		<input type="hidden" id="itemparams" />
+		<input type="hidden" id="typehidden" />
+		<div class="slidemenu view">
+			<div class="scrollviewcontent" style="top: 0;font-size:16px;">
+				<div id="slidemenu"></div>
+			</div>
+		</div>
+		<div class="view current">
+			<header class="mui-bar mui-bar-nav">
+				<a class="mui-action-backup mui-icon mui-icon-left-nav mui-pull-left" data-backtop="1"></a>
+				<h1 class="mui-title">订单管理</h1>
+			</header>
+			<div class="mui-content scrollviewcontent" data-initajax="true">
+				<div>
+					<div class="mui-content-padded">
+
+						<div class="kom-entry" data-entry="c0" style="margin-top:10px">
+							<div class="kom-entry-trans"></div>
+							Commit待申请
+							<div class='otherinfo'>&nbsp;</div>
+						</div>
+						<div class="kom-entry" data-entry="c1" param="numCommit">
+							<div class="kom-entry-trans"></div>
+							<span class="mui-badge mui-badge-danger posbadge"></span> Commit审核中
+							<div class='otherinfo'>&nbsp;</div>
+						</div>
+						<div class="kom-entry-all" style="margin-bottom: -10px;">
+							<div class="kom-entry kom-entry-harf harf-left entry-dis">
+								产品
+							</div>
+							<div class="kom-entry kom-entry-harf entry-dis">
+								服务
+							</div>
+						</div>
+						<div class="kom-entry-all">
+							<div class="kom-entry kom-entry-harf harf-left" data-entry="o0-0">
+								<div class="kom-entry-trans"></div>
+								已审待Sell Out
+								<div class='otherinfo'>&nbsp;</div>
+							</div>
+							<div class="kom-entry kom-entry-harf" data-entry="o0-1">
+								<div class="kom-entry-trans"></div>
+								已审待Sell Out
+								<div class='otherinfo'>&nbsp;</div>
+							</div>
+						</div>
+						<div class="kom-entry-all">
+							<div class="kom-entry kom-entry-harf harf-left" data-entry="o1-0" param="numOrder">
+								<div class="kom-entry-trans"></div>
+								<span class="mui-badge mui-badge-danger posbadge"></span> 审核中
+								<div class='otherinfo'>&nbsp;</div>
+							</div>
+							<div class="kom-entry kom-entry-harf " data-entry="o1-1" param="numOrderService">
+								<div class="kom-entry-trans"></div>
+								<span class="mui-badge mui-badge-danger posbadge"></span> 审核中
+								<div class='otherinfo'>&nbsp;</div>
+							</div>
+						</div>
+						<div class="kom-entry-all">
+							<div class="kom-entry kom-entry-harf harf-left" data-entry="o10-0">
+								<div class="kom-entry-trans"></div>
+								已审未签
+								<div class='otherinfo'>&nbsp;</div>
+							</div>
+							<div class="kom-entry kom-entry-harf " data-entry="o10-1">
+								<div class="kom-entry-trans"></div>
+								已审未签
+								<div class='otherinfo'>&nbsp;</div>
+							</div>
+						</div>
+						<div class="kom-entry-all">
+							<div class="kom-entry kom-entry-harf harf-left" data-entry="o21-0">
+								<div class="kom-entry-trans"></div>
+								签约中
+								<div class='otherinfo'>&nbsp;</div>
+							</div>
+							<div class="kom-entry kom-entry-harf " data-entry="o21-1">
+								<div class="kom-entry-trans"></div>
+								签约中
+								<div class='otherinfo'>&nbsp;</div>
+							</div>
+						</div>
+
+						<div class="kom-entry-all">
+							<div class="kom-entry kom-entry-harf harf-left" data-entry="o25-0">
+								<div class="kom-entry-trans"></div>
+								已签未付款
+								<div class='otherinfo'>&nbsp;</div>
+							</div>
+							<div class="kom-entry kom-entry-harf " data-entry="o25-1">
+								<div class="kom-entry-trans"></div>
+								已签未付款
+								<div class='otherinfo'>&nbsp;</div>
+							</div>
+						</div>
+						<div class="kom-entry-all">
+							<div class="kom-entry kom-entry-harf harf-left" data-entry="o30-0">
+								<div class="kom-entry-trans"></div>
+								已签未发货
+								<div class='otherinfo'>&nbsp;</div>
+							</div>
+							<div class="kom-entry kom-entry-harf " data-entry="o30-1">
+								<div class="kom-entry-trans"></div>
+								已签未发货
+								<div class='otherinfo'>&nbsp;</div>
+							</div>
+						</div>
+
+						<div class="kom-entry-all">
+							<div class="kom-entry kom-entry-harf harf-left" data-entry="o45-0">
+								<div class="kom-entry-trans"></div>
+								收款中
+								<div class='otherinfo'>&nbsp;</div>
+							</div>
+							<div class="kom-entry kom-entry-harf " data-entry="o45-1">
+								<div class="kom-entry-trans"></div>
+								收款中
+								<div class='otherinfo'>&nbsp;</div>
+							</div>
+						</div>
+
+						<div class="kom-entry-all">
+							<div class="kom-entry kom-entry-harf harf-left" data-entry="o50-0">
+
+								完成收款
+								<div class='otherinfo'>&nbsp;</div>
+							</div>
+							<div class="kom-entry kom-entry-harf " data-entry="o50-1">
+								<div class="kom-entry-trans"></div>
+								完成收款
+								<div class='otherinfo'>&nbsp;</div>
+							</div>
+						</div>
+
+						<div class="kom-entry" data-entry="c60" style="margin-bottom:20px">
+							已丢单
+							<div class='otherinfo'>&nbsp;</div>
+						</div>
+						<div style="height:10px;"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class='view next'></div>
+		<div class='view next'></div>
+		<div class='view next'></div>
+		<div class="mask wrapall">
+			<div id="popbtns">
+				<span showstatus="c0" class="tworow" type="applycommit">
+
+					申请<br />
+
+					Commit
+
+				</span>
+				<span showstatus="c1" type="commitreview">
+
+					审核
+
+				</span>
+				<span showstatus="o1-0 o1-1" type="orderreview">
+
+					审核
+
+				</span>
+				<span showstatus="c0" sessionright="statusorder" confirminfo="sellout" class="tworow" type="applyorder" typep="0">
+
+					SellOut<br/>
+
+					产品订单
+
+				</span>
+				<span showstatus="c0" sessionright="statusservice" confirminfo="sellout" class="tworow" type="applyorder" typep="1">
+
+					SellOut<br/>
+
+					服务订单
+
+				</span>
+				<span showstatus="o0-0" class="tworow" type="applyorder" typep="0">
+
+					SellOut<br/>
+					产品订单
+				</span>
+				<span showstatus="o0-1" class="tworow" type="applyorder" typep="1">
+					SellOut<br/>
+					服务订单
+				</span>
+				<span showstatus="o30-0" type="applyship">
+					申请发货
+				</span>
+				<span showstatus="o30-1" type="applyimple"> 
+					申请实施
+				</span>
+				<span nosee="c60 c0 o50" type="loseorder">
+					已丢单
+				</span>
+				<!--<span showstatus="o10-0 o10-1 o21-1 o21-0 o25-0 o25-1 o30-0 o30-1 o45-0 o45-1" type="editorder">
+					编辑<br/>
+					订单状态
+				</span>
+				<span showstatus="c1 o0-0 o0-1 o1-0 o1-1 o10-0 o10-1 o21-1 o21-0 " type="removeorder">
+					删除
+				</span>-->
+			</div>
+		</div>
+		<div id="itemtemp" class="wrapall" style="display: none;">
+			<li class="mui-table-view-cell pjaxitem $glitem$" priceid='$priceid$' orderid="$orderid$" btnmanager="$btnmanager$" busimeb="$p_busimeb$" oldprice="$oldprice$">
+				<div class="mui-table">
+					<div class="mui-table-cell mui-col-xs-11">
+						<h5 class="listitemhead">
+
+							<span class="mui-ellipsis">$proname$</span>
+
+							<span>$amount$</span>
+
+						</h5>
+						<h6>$num$</h6>
+						<h6>$date$</h6>
+					</div>
+					<div class="mui-table-cell mui-col-xs-1 mui-text-right">
+						<span class="mui-icon mui-icon-right"></span>
+					</div>
+				</div>
+			</li>
+		</div>
+		<div class="i-loading" style="display: none;">
+			<div class="iloadwrap">
+				<div class="mui-spinner">
+					<div class="mui-spinner-indicator mui-spinner-indicator1"></div>
+					<div class="mui-spinner-indicator mui-spinner-indicator2"></div>
+					<div class="mui-spinner-indicator mui-spinner-indicator3"></div>
+					<div class="mui-spinner-indicator mui-spinner-indicator4"></div>
+					<div class="mui-spinner-indicator mui-spinner-indicator5"></div>
+					<div class="mui-spinner-indicator mui-spinner-indicator6"></div>
+					<div class="mui-spinner-indicator mui-spinner-indicator7"></div>
+					<div class="mui-spinner-indicator mui-spinner-indicator8"></div>
+					<div class="mui-spinner-indicator mui-spinner-indicator9"></div>
+					<div class="mui-spinner-indicator mui-spinner-indicator10"></div>
+					<div class="mui-spinner-indicator mui-spinner-indicator11"></div>
+					<div class="mui-spinner-indicator mui-spinner-indicator12"></div>
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>

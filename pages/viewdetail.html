@@ -1,0 +1,72 @@
+<header class="mui-bar mui-bar-nav">
+	<a class="mui-action-backup mui-icon mui-icon-left-nav mui-pull-left" data-backtop="0"></a>
+	<h1 class="mui-title replaceitem" replaceitem="title"></h1>
+	<a href="javascript:" id="extenddivmenu" class="mui-icon mui-icon-bars mui-pull-right"></a>
+</header>
+<div class="i-loading" id="detailmask" style="z-index:9;"></div>
+<div class="mui-content viewcontent">
+	<div class="searchdiv" id="ajaxform">
+			<div  class="mui-input-group" id="ajaxform">
+				<div class="mui-input-row mui-search isearch">
+					<input type="text" class="mui-input-clear" placeholder="项目名称" name="projectname">
+					<span class="mui-placeholder">
+					<span class="mui-icon mui-icon-search"></span>
+					</span>
+					<button class="mui-btn mui-icon mui-icon-search"></button>
+					<button class="mui-btn mui-icon mui-icon-close"></button>
+				</div>
+				<div id="clickdownwrap">
+					<span class="mui-icon mui-icon-down"></span>
+				</div>
+				<div id="othersearch">
+					<div class="mui-input-row">
+						<input type="text" placeholder="报价单编号" class="mui-input-clear" name="pricenum" />
+					</div>
+					<div class="mui-input-row" style="position: relative;" data-dropdownlist="true" loadurl="areaurl">
+						<input type="hidden" name="areaid" value="-1"/>
+						<input type="text" placeholder="管辖地区" class="mui-input-clear" name="areaaname"/>
+					</div>
+					<div class="mui-input-row btnsrow">
+						<span type="month">本月</span>
+						<span type="thisquarter">本季</span>
+						<span type="lastquarter">上季</span>
+						<span type="other" class="active">其他</span>
+					</div>
+					<div class="mui-input-row dateinputrow" style="
+    height: 36px;">
+						<input type="button" dtype="start"  value="预计签约时间(起)" name="startdate"/>到
+						<input type="button" dtype="end"  value="预计签约时间(止)" name="enddate"/>
+					</div>
+					<div class="mui-input-row">
+						<button id="detailsearch" class="mui-btn mui-icon mui-icon-search" style="width: 99%;"></button>
+					</div>
+					<div id="clickdownwrapup">
+						<span class="mui-icon mui-icon-up"></span>
+					</div>
+				</div>
+			</div>
+	</div>
+	<div class="sumdiv mui-item">
+		<div class="mui-col-xs-6" style="float: left;">
+			<label>项目数:</label><span id="projectnumsum"></span>
+		</div>
+		<div class="mui-col-xs-6">
+			<label>订单金额(万元):</label><span id="orderpricesum"></span>
+		</div>
+	</div>
+	<div class="mui-content-padded scrollviewcontent sildecontain" id="maincontain" draggable="true" style="top:69px">
+		<div id="ultalble">
+			<div id="pulldown" >
+				<span class="pulldown-icon"></span><span id="pulldown-label"></span>
+			</div>
+			<div>
+				<div class="mui-loading" data-loading="true" loadurl="listurl" formid="ajaxform"  data-page="1">
+				</div>
+			</div>
+			<div id="pullup" >
+				<span class="pullup-icon"></span><span id="pullup-label"></span>
+			</div>
+		</div>
+	</div>
+</div>
+

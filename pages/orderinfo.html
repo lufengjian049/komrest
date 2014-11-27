@@ -1,0 +1,117 @@
+<header class="mui-bar mui-bar-nav">
+	<a class="mui-action-backup mui-icon mui-icon-left-nav mui-pull-left" data-backtop="0"></a>
+	<h1 class="mui-title replaceitem" replaceitem="title"></h1>
+</header>
+<div class="scrollviewcontent">
+	<div>
+		<div id="viewdetailgroup" class="mui-item-group" loadurl="detailurl">
+			<div class="mui-item" param="order.priceapplyno">
+				<label>报价编号</label>
+				<span></span>
+			</div>
+			<div class="mui-item mui-ellipsis" param="order.projectname">
+				<label>项目名称</label>
+				<span></span>
+			</div>
+			<div class="mui-item" param="order.applyusername">
+				<label>申请者</label>
+				<span></span>
+			</div>
+			<div class="mui-item" param="order.approveddate" valuetype="date">
+				<label>Commit审核通过时间</label>
+				<span></span>
+			</div>
+			<div class="mui-item" param="order.applytime" valuetype="date">
+				<label>SellOut申请时间</label>
+				<span></span>
+			</div>
+			<div class="mui-item" param="order.type" changetype="ordertype">
+				<label>订单类型</label>
+				<span></span>
+			</div>
+			<div class="mui-item" param="order.orderprice">
+				<label>订单金额(元)</label>
+				<span></span>
+			</div>
+			<div class="mui-item haslink" param="channelNameNation" type="channelnationdetail" paramex="channelidnation" style="line-height: 15px;">
+				<div class="mui-col-xs-11">
+					<label>全国分销商</label>
+					<span></span>
+				</div>
+				<div class="mui-col-xs-1 mui-text-right">
+					<span class="mui-icon mui-icon-right"></span>
+				</div>
+			</div>
+			<div class="mui-item haslink" param="order.channelname" type="channeldetail" paramex="order.channelid" style="line-height: 15px;">
+				<div class="mui-col-xs-11">
+					<label>订单签约渠道</label>
+					<span></span>
+				</div>
+				<div class="mui-col-xs-1 mui-text-right">
+					<span class="mui-icon mui-icon-right"></span>
+				</div>
+			</div>
+			<div class="mui-item" param="order.channellinkmanname">
+				<label>渠道联系人</label>
+				<span></span>
+			</div>
+			<div class="mui-item" param="linkphone">
+				<label>联系人电话</label>
+				<span></span>
+			</div>
+			<div class="mui-item" param="order.paymenttype">
+				<label>付款方式</label>
+				<span></span>
+			</div>
+			<!--<div class="mui-item" param="order.applytime" valuetype="date">
+				<label>确认订单时间</label>
+				<span></span>
+			</div>-->
+			<div class="mui-item" param="predictSignDate" valuetype="date">
+				<label>预计SellOut时间</label>
+				<span></span>
+			</div>
+			<div class="mui-item" param="order.predictpickdate" valuetype="date">
+				<label>预计提货时间</label>
+				<span></span>
+			</div>
+			<!--start-->
+			<div class="mui-item" param="order.signdate" valuetype="date">
+				<label>实际SellOut时间</label>
+				<span></span>
+			</div>
+			<div class="mui-item" param="order.pickdate" valuetype="date">
+				<label>实际发货时间</label>
+				<span></span>
+			</div>
+					<div class="mui-item" param="order.firstpaydate" valuetype="date">
+				<label>首付时间</label>
+				<span></span>
+			</div>
+					<div class="mui-item" param="order.finishdate" valuetype="date">
+				<label>完成收款时间</label>
+				<span></span>
+			</div>
+			<!--over-->
+			<div class="mui-item multiitemrow" param="order.remark">
+				<label>备注说明</label>
+				<span></span>
+			</div>
+			<div class="mui-item" param="order.orderstatus" changetype="orderstatus">
+				<label>审核状态</label>
+				<span></span>
+			</div>
+		</div>
+		<div id="viewdetailbtngroup" class="detailbtns">
+			<button class="mui-btn mui-btn-block" showstatus="o1-0 o1-1" type="orderreview">审核</button>
+			<button class="mui-btn mui-btn-block" showstatus="o0-0" type="applyorder" typep="0">Sell Out产品订单</button>
+			<button class="mui-btn mui-btn-block" showstatus="o0-1" type="applyorder" typep="1">Sell Out服务订单</button>
+			<button class="mui-btn mui-btn-block" showstatus='o30-0' type="applyship">申请发货</button>
+			<button class="mui-btn mui-btn-block" showstatus="o30-1" type="applyimple">申请实施</button>
+			<!--<button class="mui-btn mui-btn-block" showstatus="o10-0 o10-1 o21-1 o21-0 o25-0 o25-1 o30-0 o30-1 o45-0 o45-1" type="editorder">编辑订单状态</button>
+			<button class="mui-btn mui-btn-block" showstatus="c1 o0-0 o0-1 o1-0 o1-1 o10-0 o10-1 o21-1 o21-0" type="removeorder">删除</button>-->
+			<button class="mui-btn mui-btn-block" showstatus="" nosee="o50" type="loseorder">已丢单</button>
+		</div>
+		<br />
+	</div>
+</div>

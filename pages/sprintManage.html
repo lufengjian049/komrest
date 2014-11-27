@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="format-detection" content="telephone=no"/>
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/mcss-1.3.css"/>
+		<script src="../js/zepto.min.js" type="text/javascript" charset="utf-8"></script>
+		 <script src="../js/sprintmjs-1.2.min.js" type="text/javascript" charset="utf-8"></script>
+		<!-- <script type="text/javascript" src="../js/iscroll.js" ></script>
+		<script type="text/javascript" src="../js/util.js" ></script>  
+		<script type="text/javascript" src="../js/sprintmjs-1.0-debug.js" ></script>   -->
+	</head>
+	<body style="overflow: hidden;">
+		<input type="hidden" id="hiddentoken"/>
+		<div class="view cover" style="display:none">
+			<div>
+				<div class="sprintStart sprintGoOp"></div>
+				<div class="sprintInput">
+					<p id="sprintTaptoinput">
+						请在此输入本季度Sell out目标<br>启动本季度业绩冲刺
+					</p>
+					<input id="thisQuartertarget"  type="number" placeholder="" style="display: none;"/>
+					<div id="countparam">
+						万
+					</div>
+				</div>
+				<div class="sprintStartGo sprintGoOp">
+				</div>
+			</div>
+		</div>
+		<div class="view current" style="background-color: #fff;display:none">
+			<header class="mui-bar mui-bar-nav">
+				<a class="mui-action-backup mui-icon mui-icon-left-nav mui-pull-left" data-backtop="1"></a>
+				<a id="editTargetbtn" class="mui-icon mui-icon-compose mui-pull-right"></a>
+				<h1 class="mui-title" id="maintitle">冲刺管理</h1>
+			</header>
+			<div id="container" class="mui-content scrollviewcontent" data-initajax="true" style="background-color: #fff;">
+				<div>
+					<div class="mui-content-padded">
+					   	<div id="desStatus" class="linear-gradient-div">
+					   		<div class="statusHeader">
+					   			<div class="statusTitle">
+						   			本季度
+						   		</div>
+						   		<span>目标 <label id="targetSpan"></label>万，预计完成率 <label id="pretargetPre"></label> </span>
+					   		</div>
+					   		<img id="firstMainBg" src="../css/mainBg.png" style="display: none;"/>
+					   		<canvas id="firstcanvas" width="100%" height="300"></canvas>
+					   	</div>
+					   	<div class="linear-gradient-div" style="height:220px">
+					   		<div class="statusHeader">
+					   			<div class="statusTitle dataStatis">
+						   			总数据统计
+						   		</div>
+						   		<span style="margin-left: 130px;">总数 <label id="totalamountspan"></label>万</span>
+					   		</div>
+					   		<canvas id="seccanvas"></canvas>
+					   		<div class="colorDivWrapbottom">
+					   			<div>
+					   				<span class="color" style="background-color:#047bc1"></span><span>Commit</span>
+					   			</div>
+					   			<div>
+					   				<span class="color" style="background-color:#fcbc13"></span><span>待Sell out</span>
+					   			</div>
+					   			<div>
+					   				<span class="color"  style="background-color:#f35040"></span><span>已Sell out</span>
+					   			</div>
+					   		</div>
+					   	</div>
+					   	<div class="linear-gradient-div">
+					   		<div class="statusHeader">
+					   			<div class="statusTitle commitdata">
+						   			Commit数据
+						   		</div>
+					   		</div>
+					   		<canvas id="thirdcanvas" width="100%" height="100px"></canvas>
+					   	</div>
+					   	<div class="linear-gradient-div" style="height:240px">
+					   		<div class="statusHeader">
+					   			<div class="statusTitle wsellout">
+						   			待Sell Out数据
+						   		</div>
+					   		</div>
+					   		<canvas id="forthcanvas" width="100%" height="100px"></canvas>
+					   		<div class="colorDivWrapbottom">
+					   			<div>
+					   				<span class="color" style="background-color:#2796d9"></span><span>审核中</span>
+					   			</div>
+					   			<div>
+					   				<span class="color" style="background-color:#73964e"></span><span>已审未签</span>
+					   			</div>
+					   			<div>
+					   				<span class="color"  style="background-color:#59a8b3"></span><span>签约中</span>
+					   			</div><br>
+					   			<div>
+					   				<span class="color"  style="background-color:#ead038"></span><span>已签未付款</span>
+					   			</div>
+					   			<div>
+					   				<span class="color"  style="background-color:#ee9840"></span><span>已签未发货</span>
+					   			</div>
+					   		</div>
+					   	</div>
+					   	<div class="linear-gradient-div">
+					   		<div class="statusHeader">
+					   			<div class="statusTitle sellouted">
+						   			已Sell Out数据
+						   		</div>
+					   		</div>
+					   		<canvas id="fivecanvas" width="100%" height="100px"></canvas>
+					   	</div>
+					   	<div class="linear-gradient-div" style="min-height:90px;height:auto">
+					   		<div class="statusHeader">
+					   			<div class="statusTitle theorder">
+						   			排名情况
+						   		</div>
+						   		<button class="mui-btn" id="loadOrderDetail">
+									查看详情
+								</button>
+					   		</div>
+					   		<div class="theorderwrapper" id="theorderwrapperid">
+					   		</div>
+					   		<table class="mtable" id="rankinfotable" style="display:none">
+					   			<thead>
+									<tr>
+										<th>大区负责人</th>
+										<th>Sell out完成额(万)</th>
+										<th>完成率</th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+					   		</table>
+					   	</div>
+						<div style="height:10px;"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class='view next'></div>
+		<!-- <div class="view popbox" id="editpopbox">
+			<header class="mui-bar mui-bar-nav">
+				<h1 class="mui-title">编辑冲刺目标</h1>
+			</header>
+			<div class="scrollviewcontent" id="popboxscrollwrap">
+				<div class="popboxwrap">
+			      <div class="">请输入新的季度目标(万)</div>
+			      <div class="">
+			          <input id="newtargetvalue" type="number" style="width:80%" placeholder="请输入新目标" />万     
+			      </div>
+			    </div> 
+			</div>
+			<nav class="mui-bar mui-bar-tab">
+			    <a class="mui-tab-item modalOK" style="border-right: 1px solid #ccc;">
+			        确定
+			    </a>
+			    <a class="mui-tab-item modalClose">
+			       取消
+			    </a>
+			</nav>
+		</div> -->
+		<div id="mianOrderTem" style="display:none">
+			<div>
+   				$name$
+   			</div>
+   			<div>
+   				<div class="orderbg"></div>
+   				<div class="orderbg $typeclass$" style="width:$bgwidth$;"></div>
+   				<canvas class="ordertip"></canvas>
+   				<div class="wordtip">
+   					$numindex$
+   				</div>
+   			</div>
+		</div>
+		<div class="i-loading" style="display: none;">
+			<div class="iloadwrap">
+				<div class="mui-spinner">
+					<div class="mui-spinner-indicator mui-spinner-indicator1"></div>
+					<div class="mui-spinner-indicator mui-spinner-indicator2"></div>
+					<div class="mui-spinner-indicator mui-spinner-indicator3"></div>
+					<div class="mui-spinner-indicator mui-spinner-indicator4"></div>
+					<div class="mui-spinner-indicator mui-spinner-indicator5"></div>
+					<div class="mui-spinner-indicator mui-spinner-indicator6"></div>
+					<div class="mui-spinner-indicator mui-spinner-indicator7"></div>
+					<div class="mui-spinner-indicator mui-spinner-indicator8"></div>
+					<div class="mui-spinner-indicator mui-spinner-indicator9"></div>
+					<div class="mui-spinner-indicator mui-spinner-indicator10"></div>
+					<div class="mui-spinner-indicator mui-spinner-indicator11"></div>
+					<div class="mui-spinner-indicator mui-spinner-indicator12"></div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

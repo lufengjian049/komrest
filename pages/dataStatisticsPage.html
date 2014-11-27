@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="format-detection" content="telephone=no"/>
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/komh5.css"/>
+		<script src="../js/zepto.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/iscroll.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/util.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/datamjs-1.0-debug.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div class="view current" style="background-color: #fff">
+			<header class="mui-bar mui-bar-nav">
+				<a class="mui-action-backup mui-icon mui-icon-left-nav mui-pull-left" data-backtop="1"></a>
+				<h1 class="mui-title" id="maintitle">数据统计</h1>
+			</header>
+			<div id="container" class="mui-content" style="background-color: #fff;">
+			   <div class="datatab">
+			   		<div id="datatabWrapper">
+				   		<a status="110" class="datatab-item active" href=""><p>Commit</p><p>已审核</p></a>
+				   		<a status="1" class="datatab-item" href=""><p>Sell out</p><p>审核中</p></a>
+				   		<a status="10" class="datatab-item" href=""><p>Sell out</p><p>已审未签</p></a>
+				   		<a status="21" class="datatab-item" href=""><p>Sell out</p><p>签约中</p></a>
+				   		<a status="25" class="datatab-item" href=""><p>Sell out</p><p>已签未付款</p></a>
+				   		<a status="30" class="datatab-item" href=""><p>Sell out</p><p>已签未发货</p></a>
+				   		<a status="92" class="datatab-item" href=""><p>已</p><p>Sell out</p></a>
+			   		</div>
+			   </div>
+			   <div id="tabcontent">
+				   <div class="datachart active" id="dataChartDiv">
+				   		<div class="chartTips">
+				   			<div><label>项目数:</label><span>34</span></div>
+				   			<div><em></em><label>订单金额:</label><span>23232.11</span></div>
+				   			<div><em></em><label>收款金额:</label><span>23232.11</span></div>
+				   		</div>
+				   		<div id="chart">
+				   			<svg class="posSys" xmlns="http://www.w3.org/2000/svg">
+				   				<g id="bgPanel">
+				   					<!-- <text x="10" y="10">(单位:万元)</text>
+					   				<line x1="0" y1="30" x2="320" y2="30"/>
+					   				<line x1="0" y1="80" x2="320" y2="80"/>
+					   				<line x1="0" y1="140" x2="320" y2="140"/>
+					   				<line x1="0" y1="190" x2="320" y2="190"/>
+					   				<line x1="0" y1="250" x2="320" y2="250"/>
+					   				<rect x="120" y="2" width="80" height="270" fill="transparent" stroke="#ccc"/> -->
+				   				</g>
+				   				<svg class="posSys chartAni" id="qrectsvg">
+					   			</svg>
+					   			<g id="bgPanel2">
+				   				</g>
+				   				<defs>
+									<linearGradient id="orderGradient" x1="0%" y1="100%" x2="0%" y2="0%">
+										<stop offset="0%" style="stop-color:rgb(113,177,240);
+										stop-opacity:1"/>
+										<stop offset="100%" style="stop-color:rgb(0,96,215);
+										stop-opacity:1"/>
+									</linearGradient>
+									<linearGradient id="ramountGradient" x1="0%" y1="100%" x2="0%" y2="0%">
+										<stop offset="0%" style="stop-color:rgb(243,204,71);
+										stop-opacity:1"/>
+										<stop offset="100%" style="stop-color:rgb(248,126,17);
+										stop-opacity:1"/>
+									</linearGradient>
+									<filter id="f1" x="0" y="0" width="200%" height="200%">
+								      <feOffset result="offOut" in="SourceGraphic" dx="20" dy="20" />
+								      <feGaussianBlur result="blurOut" in="offOut" stdDeviation="10" />
+								      <feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
+								    </filter>
+								</defs>
+							</svg>
+				   		</div>
+				   </div>
+			   </div>
+			   <div id="dataBottomSearchDiv">
+			   		<div class="searchdivdata mui-input-row mui-search">
+			   			<input type="search" class="mui-input-clear" placeholder="" />
+			   			<span class="mui-placeholder">
+			   				<span class="mui-icon mui-icon-search"></span>搜索地区
+			   			</span>
+			   		</div>
+			   		<div class="dropdownsearch">
+
+			   		</div>
+			   </div>
+			</div>
+		</div>
+	</body>
+</html>
