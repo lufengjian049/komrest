@@ -9,7 +9,7 @@
 		<link rel="stylesheet" type="text/css" href="../css/komh5.css"/>
 		<script src="../js/zepto.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../js/iscroll.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../js/util.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/util-d.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../js/datamjs-1.0-debug.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 	<body>
@@ -21,32 +21,25 @@
 			<div id="container" class="mui-content" style="background-color: #fff;">
 			   <div class="datatab">
 			   		<div id="datatabWrapper">
-				   		<a status="110" class="datatab-item active" href=""><p>Commit</p><p>已审核</p></a>
-				   		<a status="1" class="datatab-item" href=""><p>Sell out</p><p>审核中</p></a>
-				   		<a status="10" class="datatab-item" href=""><p>Sell out</p><p>已审未签</p></a>
-				   		<a status="21" class="datatab-item" href=""><p>Sell out</p><p>签约中</p></a>
-				   		<a status="25" class="datatab-item" href=""><p>Sell out</p><p>已签未付款</p></a>
-				   		<a status="30" class="datatab-item" href=""><p>Sell out</p><p>已签未发货</p></a>
-				   		<a status="92" class="datatab-item" href=""><p>已</p><p>Sell out</p></a>
+				   		<a status="110" class="datatab-item active" href="javascript:"><p>Commit</p><p>已审核</p></a>
+				   		<a status="1" class="datatab-item" href="javascript:"><p>Sell out</p><p>审核中</p></a>
+				   		<a status="10" class="datatab-item" href="javascript:"><p>Sell out</p><p>已审未签</p></a>
+				   		<a status="21" class="datatab-item" href="javascript:"><p>Sell out</p><p>签约中</p></a>
+				   		<a status="25" class="datatab-item" href="javascript:"><p>Sell out</p><p>已签未付款</p></a>
+				   		<a status="30" class="datatab-item" href="javascript:"><p>Sell out</p><p>已签未发货</p></a>
+				   		<a status="92" class="datatab-item" href="javascript:"><p>已</p><p>Sell out</p></a>
 			   		</div>
 			   </div>
 			   <div id="tabcontent">
-				   <div class="datachart active" id="dataChartDiv">
+				   <div class="datachart active">
 				   		<div class="chartTips">
-				   			<div><label>项目数:</label><span>34</span></div>
-				   			<div><em></em><label>订单金额:</label><span>23232.11</span></div>
-				   			<div><em></em><label>收款金额:</label><span>23232.11</span></div>
+				   			<div><label>项目数:</label><span param="num"></span></div>
+				   			<div><em></em><label>订单金额:</label><span param="pasum"></span></div>
+				   			<div><em></em><label>收款金额:</label><span param="recesum"></span></div>
 				   		</div>
-				   		<div id="chart">
-				   			<svg class="posSys" xmlns="http://www.w3.org/2000/svg">
+				   		<div class="chart">
+				   			<svg id="svgObjDiv" class="posSys" xmlns="http://www.w3.org/2000/svg">
 				   				<g id="bgPanel">
-				   					<!-- <text x="10" y="10">(单位:万元)</text>
-					   				<line x1="0" y1="30" x2="320" y2="30"/>
-					   				<line x1="0" y1="80" x2="320" y2="80"/>
-					   				<line x1="0" y1="140" x2="320" y2="140"/>
-					   				<line x1="0" y1="190" x2="320" y2="190"/>
-					   				<line x1="0" y1="250" x2="320" y2="250"/>
-					   				<rect x="120" y="2" width="80" height="270" fill="transparent" stroke="#ccc"/> -->
 				   				</g>
 				   				<svg class="posSys chartAni" id="qrectsvg">
 					   			</svg>
@@ -74,10 +67,18 @@
 							</svg>
 				   		</div>
 				   </div>
+				   <div class="datachart"></div>
+				   <div class="datachart"></div>
+				   <div class="datachart"></div>
+				   <div class="datachart"></div>
+				   <div class="datachart"></div>
+				   <div class="datachart"></div>
 			   </div>
 			   <div id="dataBottomSearchDiv">
 			   		<div class="searchdivdata mui-input-row mui-search">
-			   			<input type="search" class="mui-input-clear" placeholder="" />
+			   			<!-- <input type="search" class="mui-input-clear" placeholder="" /> -->
+			   			<select>
+			   			</select>
 			   			<span class="mui-placeholder">
 			   				<span class="mui-icon mui-icon-search"></span>搜索地区
 			   			</span>
@@ -85,18 +86,43 @@
 			   		</div>
 			   		<div class="dropdownsearch">
 						<div>
-							<div class="mui-col-xs-5 mui-text-center searchtitle">
+							<div class="mui-col-xs-4 mui-text-center searchtitle">
 								<span>根地区</span>
 							</div>
-
+							<div class="mui-col-xs-6 mui-text-center">
+								<select id="rootarea">
+									<option>全部</option>
+								</select>
+							</div>
+							<div class="mui-col-xs-2 dropdowntip">
+								<div></div>
+							</div>
 						</div>
 						<div>
-							<div class="mui-col-xs-5 mui-text-center searchtitle">
+							<div class="mui-col-xs-4 mui-text-center searchtitle">
 								<span>子地区</span>
+							</div>
+							<div class="mui-col-xs-6 mui-text-center">
+								<select id="subarea">
+									<option selected>全部</option>
+								</select>
+							</div>
+							<div class="mui-col-xs-2 dropdowntip">
+								<div></div>
 							</div>
 						</div>
 			   		</div>
 			   </div>
+			</div>
+			<input type="hidden" id="hiddentoken" />
+			<div id="contenttmp" style="display:none">
+				<div class="chartTips">
+		   			<div><label>项目数:</label><span param="num">@{num}</span></div>
+		   			<div><em></em><label>订单金额:</label><span param="pasum">@{ordreamount}</span></div>
+		   			<div><em></em><label>收款金额:</label><span param="recesum">@{reciveamount}</span></div>
+		   		</div>
+		   		<div class="chart">
+		   		</div>
 			</div>
 		</div>
 	</body>

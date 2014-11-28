@@ -656,10 +656,18 @@ background-position: 0 0;
   line-height: 13px;
 }
 .datachart{
-  display: none;position: relative;
+  display: none;position: relative;height: 100%;opacity: 0;
 }
 .datachart.active{
-  display: block;
+  display: block;opacity: 1;
+}
+.datachart.out{
+  opacity: 0;
+  -webkit-transition: opacity 400ms;
+}
+.datachart.in{
+  opacity: 1;
+  -webkit-transition: opacity 400ms;
 }
 .datachart .chartTips{
   font-size: 12px;padding-left: 10px;height: 25px;
@@ -683,7 +691,7 @@ background-color: #ffe30f;
 .filterlay{
   position: absolute;box-shadow: inset 0 0 20px 4px #ccc;border: 1px solid #ccc;background: transparent;
 }
-#chart{
+.chart{
 position: absolute;z-index: 10;
 }
 #posSys{
@@ -706,7 +714,7 @@ text{
 }
 .chartAni.in{
   opacity: 1;
-  -webkit-transition: opacity 2000ms;
+  -webkit-transition: opacity 1000ms;
 }
 .chartAni g{
   opacity: .5;
@@ -723,7 +731,7 @@ text{
 .searchdivdata{
   background-color: #ccc;padding: 2px 10px;
 }
-.searchdivdata input{
+.searchdivdata select{
   width: 88%;margin-bottom: 0;border: 1px solid #ccc;background-color: #fff;border-radius: 50px;
 }
 .searchdivdata .mui-placeholder{
@@ -735,14 +743,27 @@ text{
 .searchdivdata  .mui-icon{
   float: right;margin-top: 5px;margin-left: 6px;
 }
+.dropdownsearch select{
+  margin-bottom: 0;padding: 7px 15px;
+}
 .dropdownsearch{
   /*margin-top: 10px;*/
 }
 .dropdownsearch>div{
-  height: 35px;border-bottom: 1px solid #ccc;line-height: 35px;
+  height: 35px;border-bottom: 1px solid #ccc;line-height: 35px;display: table;width: 100%;
 }
 .dropdownsearch .searchtitle{
   /*height: 100%;*/
+}
+.dropdownsearch>div>div{
+  display: table-cell;
+}
+.dropdownsearch>div>div:first-child{
+  width: 30%;
+}
+.dropdowntip {vertical-align: middle;}
+.dropdowntip div{
+  width: 0;height: 0;border: 10px solid transparent;border-top: 10px solid #ccc;margin: 0 auto;
 }
 /*.circle {
   transition: stroke 0.3s, fill 0.3s;
