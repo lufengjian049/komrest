@@ -4,7 +4,8 @@ var dataUrl={
 	//domain:"http://42.121.116.149:8280/komrestservice",
 	domain:"http://42.120.17.217:8280/komrestservice",
 	statisUrl:"/other/statis",
-	getareaurl:"/area/subareas"
+	getareaurl:"/area/subareas",
+	myareaurl:"/area/myareas"
 },dataObj={
 	chartHeightPec:0.55,//图表区的比例
 	rectWidth:30,    //矩形模块中每个矩形的宽度
@@ -131,9 +132,14 @@ $(function(){
 	//搜索地区 选择事件
 	$(document).on("tap",".searchdivdata",function(){
 		var _this=$(this);
-		_this.children("span").hide();
-		_this.find("select").append('<option>爱数</option>');
-		return false;
+		$.mypost(dataUrl.domain+dataUrl.myareaurl,true,{token:$("#hiddentoken").val()},function(result){
+			var arealist=result.data.arealist,options="";
+			for(var i=0;i<arealist.length;i++){
+				options+="<option value='"+arealist[i].areaid+"'>"+arealist[i].areaname+"</option>";
+			}
+			_this.find("select").append(options).focus();
+			_this.next().hide();
+		},"GET");
 	})
 	drawBg();
 	//$(".chartAni").addClass("in");
