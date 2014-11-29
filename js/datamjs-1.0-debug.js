@@ -137,7 +137,7 @@ $(function(){
 			for(var i=0;i<arealist.length;i++){
 				options+="<option value='"+arealist[i].areaid+"'>"+arealist[i].areaname+"</option>";
 			}
-			_this.find("select").append(options).focus().next().hide();
+			_this.find("select").append(options).next().hide();
 		},"GET");
 	})
 	drawBg();
