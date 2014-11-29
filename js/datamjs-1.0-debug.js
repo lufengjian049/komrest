@@ -32,6 +32,7 @@ var dataUrl={
 	cloneSVGbg:null
 };
 $(function(){
+	window.location = "objc://setmainflag/" + JSON.stringify({flag: false});
 	dataObj.currQu=Util.getQuarter(dataObj.month);//获取当前季度
 	dataObj.dataTabWrapper=$("#datatabWrapper");
 	var curUrl=location.href,token=Util.getUrlParams(curUrl,"token");
@@ -141,12 +142,12 @@ $(function(){
 					options+="<option value='"+arealist[i].areaid+"'>"+arealist[i].areaname+"</option>";
 				}
 				_this.find("select").append(options).next().hide();
-				$("#searchIconDel").show();
+				$("#searchIconDel").removeClass("mui-hidden");
 			},"GET");
 		}
 	})
 	$(document).on("tap","#searchIconDel",function(){
-		$("#wholearea>option").hide();
+		$("#wholearea>option").addClass("mui-hidden");
 		$(this).hide().prev().show();
 
 	});
