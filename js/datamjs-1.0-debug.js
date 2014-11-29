@@ -149,7 +149,7 @@ $(function(){
 	$(document).on("tap","#searchIconDel",function(){
 		$("#wholearea>option").addClass("mui-hidden");
 		$(this).hide().prev().show();
-
+		$("#wholearea").val("");
 	});
 	drawBg();
 	//$(".chartAni").addClass("in");

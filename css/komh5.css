@@ -633,7 +633,7 @@ background-position: 0 0;
 /*冲刺管理 end*/
 /*数据统计  start*/
 .datatab{
-  height: 50px;overflow: hidden;margin-top: 10px;
+  height: 42px;overflow: hidden;margin-top: 10px;
 }
 .datatab>div{
   width: 200%;height: 40px;-webkit-transform:translateX(0);
