@@ -131,15 +131,25 @@ $(function(){
 	})
 	//搜索地区 选择事件
 	$(document).on("tap",".searchdivdata",function(){
-		var _this=$(this);
-		$.mypost(dataUrl.domain+dataUrl.myareaurl,true,{token:$("#hiddentoken").val()},function(result){
-			var arealist=result.data.arealist,options="";
-			for(var i=0;i<arealist.length;i++){
-				options+="<option value='"+arealist[i].areaid+"'>"+arealist[i].areaname+"</option>";
-			}
-			_this.find("select").append(options).next().hide();
-		},"GET");
+		var _this=$(this),wholeselectops=$("#wholearea").find("option");
+		if(wholeselectops.length){
+			wholeselectops.show();
+		}else{
+			$.mypost(dataUrl.domain+dataUrl.myareaurl,true,{token:$("#hiddentoken").val()},function(result){
+				var arealist=result.data.arealist,options="";
+				for(var i=0;i<arealist.length;i++){
+					options+="<option value='"+arealist[i].areaid+"'>"+arealist[i].areaname+"</option>";
+				}
+				_this.find("select").append(options).next().hide();
+				$("#searchIconDel").show();
+			},"GET");
+		}
 	})
+	$(document).on("tap","#searchIconDel",function(){
+		$("#wholearea>option").hide();
+		$(this).hide().prev().show();
+
+	});
 	drawBg();
 	//$(".chartAni").addClass("in");
 	//drawRect({"0":"","1":"","2":"","-1":"","-2":""},time);
