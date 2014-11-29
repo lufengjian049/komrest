@@ -151,12 +151,18 @@ $(function(){
 		$(this).hide().prev().show();
 		$("#wholearea").val("");
 	});
+	$(document).on("tap",".mui-action-backup",function(){
+		$.back();
+	})
 	drawBg();
 	//$(".chartAni").addClass("in");
 	//drawRect({"0":"","1":"","2":"","-1":"","-2":""},time);
 	getstatisdata(time);
 	drawBg2(time);
 });
+$.back=function(){
+	window.location = "objc://goback";
+}
 //获取 统计数据，并负责绘制矩形
 function getstatisdata(time,params){
 	params=params || dataObj.params;
