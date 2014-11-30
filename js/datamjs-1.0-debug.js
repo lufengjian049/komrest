@@ -11,6 +11,7 @@ var dataUrl={
 	rectWidth:30,    //矩形模块中每个矩形的宽度
 	marginWidth:30, //矩形模块之间的空白间距
 	rectMaxHeight:250, //通过计算获取
+	posdivheight:0,
 	year:new Date().getFullYear(),
 	month:new Date().getMonth(),
 	currQu:0,
@@ -50,30 +51,33 @@ $(function(){
 	var cacheinfoarr=cacheinfo.split('-'),status=cacheinfoarr[1],time=cacheinfoarr[0],
 	datatabs=dataObj.dataTabWrapper.find("a");
 	dataObj.params={areaid:0,token:token,status:status};
+	//设置默认选项的设定
+	$(".setTime").filter(".time"+time).attr("checked","checked");
+	$(".setStatus").filter(".status"+status).attr("checked","checked");
 	//处理默认时间 季 月 周
 	setParams(time);
 	// .before();
 	datatabs.eq(0).before(dataObj.dataTabWrapper.find("a[status='"+status+"']"));
 	dataObj.dataTabWrapper.find("a").removeClass("active").eq(0).addClass("active");
 	//tab区 滑动
-	$(document).on("swipeLeft","#datatabWrapper",function(e){
-		var _this=$(this),
-		curX=(Util.parseTranslateMatrix(_this.css("-webkit-transform"))).x
-		,swipewidth=-(Math.abs(curX)+40);
-		if(Math.abs(swipewidth)>tabSwipeWidth){
-			swipewidth=-(tabSwipeWidth+2);
-		}
-		$(this).css("transform","translateX("+swipewidth+"px)");
-	})
-	$(document).on("swipeRight","#datatabWrapper",function(e){
-		var _this=$(this),
-		curX=(Util.parseTranslateMatrix(_this.css("-webkit-transform"))).x,
-		swipewidth=-(Math.abs(curX)-40);
-		if(swipewidth>=0){
-			swipewidth=0;
-		}
-		$(this).css("transform","translateX("+swipewidth+"px)");
-	})
+	// $(document).on("swipeLeft","#datatabWrapper",function(e){
+	// 	var _this=$(this),
+	// 	curX=(Util.parseTranslateMatrix(_this.css("-webkit-transform"))).x
+	// 	,swipewidth=-(Math.abs(curX)+40);
+	// 	if(Math.abs(swipewidth)>tabSwipeWidth){
+	// 		swipewidth=-(tabSwipeWidth+2);
+	// 	}
+	// 	$(this).css("transform","translateX("+swipewidth+"px)");
+	// })
+	// $(document).on("swipeRight","#datatabWrapper",function(e){
+	// 	var _this=$(this),
+	// 	curX=(Util.parseTranslateMatrix(_this.css("-webkit-transform"))).x,
+	// 	swipewidth=-(Math.abs(curX)-40);
+	// 	if(swipewidth>=0){
+	// 		swipewidth=0;
+	// 	}
+	// 	$(this).css("transform","translateX("+swipewidth+"px)");
+	// })
 	//tab区 滑动 end
 	$(document).on("swipeRight","#qrectsvg",function(){
 		var _this=$(this),
@@ -160,18 +164,26 @@ $(function(){
 		$.back();
 	})
 	$(document).on("tap","#setDataInfo",function(){
-		layer.open({
+		var curindex=layer.open({
 		    type: 1,
-		    content: '空间任意发挥，这里可传入html',
-		    style: 'width:240px; height:180px; padding:10px; background-color:#F05133; color:#fff; border:none;'
+		    content: $("#popbox").html(),
+		    title:['设置默认信息',"text-align:center;"],
+		    style: 'width:80%; height:435px;border-radius:10px;'
 		});
+		$(".layermend").on("tap",function(){
+			var newcacheinfo=$(".setTime:checked").val()+'-'+$(".setStatus:checked").val();
+			if(newcacheinfo != cacheinfo){
+				//更新页面的信息
+
+				Util.setCache(curUrl,newcacheinfo);
+			}
+		})
 	})
 	drawBg();
 	//$(".chartAni").addClass("in");
 	//drawRect({"0":"","1":"","2":"","-1":"","-2":""},time);
 	getstatisdata(time);
 	drawBg2(time);
-	//new IScroll($(".scrollviewcontent"));
 	new IScroll($(".datatab"),{scrollX: true, scrollY: false});
 });
 $.back=function(){
@@ -195,12 +207,6 @@ function setParams(time){
 function setPageDivHeight(){
 	Util.getOs();
 	var height=Util.os.height;
-	// if(height<580 && height>480){
-	// 	dataObj.chartHeightPec=0.6;
-	// }
-	// if(height<680 && height>=580 ){
-	// 	dataObj.chartHeightPec=0.65;
-	// }
 	if(height > 480){
 		$(".dropdownsearch>div").css({height:"40px","line-height":"40px"});
 		$("#dataBottomSearchDiv").height("130px");
@@ -211,13 +217,9 @@ function setPageDivHeight(){
 		var chartdivheight=height-44-42-130;
 	}
 	var width=Util.os.width;
-	// chartdivheight=parseInt(height*dataObj.chartHeightPec),
 	$("#tabcontent").height(chartdivheight);
 	dataObj.svgHeight=chartdivheight-25;
 	$(".posSys").attr({"width":width,"height":chartdivheight-25,"viewBox":"0 0 "+width+" "+dataObj.svgHeight});
-	// if(dataObj.chartHeightPec > 0.55){
-	// 	$(".dropdownsearch>div").css({height:"40px","line-height":"40px"});
-	// }
 }
 function setDataTabWidth(){
 	var tabwidth=0;
@@ -248,6 +250,7 @@ function drawBg(){
 		dataObj.bgposobjarr.push(bgposobjitem);
 		bgobj1.appendChild(line);
 	}
+	dataObj.posdivheight=dataObj.bgposobjarr[5].y1-30;
 	//玻璃片
 	var filterlayobj=$(".chart").before("<div class='filterlay'></div>").parent().find(".filterlay"),
 	laywidth=(dataObj.rectWidth+15)*2;
@@ -277,17 +280,21 @@ function drawRect(data,time){
 	rectInfo={rect:{}},centerX=Util.os.width/2-dataObj.rectWidth,
 	rectMarginWidth=dataObj.rectWidth*2+dataObj.marginWidth;//两个矩形模块 同顶点之间的间距
 	dataObj.rectSwipeWidth=rectMarginWidth,
-	paramsarr=Util.getArrByN(dataObj.nwidth);
+	paramsarr=Util.getArrByN(dataObj.nwidth),maxamount=(data.ordermax > data.recemax) ? data.ordermax :data.recemax,
+	maxposy=getPosArr(maxamount);
 	updateproinfo(data["0"]);
 	for(var i=0;i<paramsarr.length;i++){
 		var index=paramsarr[i],curDataInfo=data[index],curRectInfo={
 			fx:centerX+rectMarginWidth*index,fheight:40,sheight:100,width:dataObj.rectWidth
 		};
+		curRectInfo.fheight= ((curDataInfo.pasum/10000)/maxposy)*dataObj.posdivheight;
+		curRectInfo.sheight= ((curDataInfo.recesum/10000)/maxposy)*dataObj.posdivheight;
 		curRectInfo.fy=dataObj.rectMaxHeight-curRectInfo.fheight;
 		curRectInfo.sx=curRectInfo.fx+dataObj.rectWidth;
 		curRectInfo.sy=dataObj.rectMaxHeight-curRectInfo.sheight;
 		var group=Util.makeSVG("g",{className:(index == 0) && "active"});
 		if(curDataInfo.pasum !=0){
+			if(curDataInfo.pasum)
 			var rect1=Util.makeSVG("rect",{rx:"4",ry:"4",x:curRectInfo.fx,y:curRectInfo.fy,width:curRectInfo.width,
 			height:curRectInfo.fheight,className:"orderRect"});
 			group.appendChild(rect1);
@@ -313,6 +320,29 @@ function updateproinfo(data){
 		else
 			$(this).html((data[curparam]/10000).toFixed(2));
 	})
+}
+function getPosArr(max){
+	var qtw=false; //大于10000
+	if(max > 10000){
+		max=parseInt(max/10000);
+		qtw=true;
+	}
+	var length=(max+"").length,arrfirst=5*(Math.pow(10,(length-1))),maxposarr=0;
+	if(max  > arrfirst){
+		maxposarr=arrfirst*2;
+	}else{
+		maxposarr=arrfirst;
+	}
+	if(!qtw)
+		maxposarr=maxposarr/10000;
+	var positem=maxposarr/5;
+	for(var i=0;i<=5;i++){
+		if(i==0)
+			dataObj.posArr[i]=">"+maxposarr;
+		else
+			dataObj.posArr[i]=maxposarr-positem*i;
+	}
+	return maxposarr;
 }
 function getRectTextDesc(type,index){
 	var str="";

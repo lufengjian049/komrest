@@ -823,14 +823,14 @@ text{
 .layermmain{position:fixed; left:0; top:0; width:100%; height:100%;}
 .laymshade{background-color:rgba(0,0,0, .5); pointer-events:auto;}
 .layermmain{display:table; font-family: Helvetica, arial, sans-serif; pointer-events: none;}
-.layermmain .section{display:table-cell; vertical-align:middle; text-align:center;}
+.layermmain section{display:table-cell; vertical-align:middle; text-align:center;}
 .layermchild{position:relative; display:inline-block;  text-align:left; background-color:#fff; font-size:14px; border-radius:6px; box-shadow:0 0 8px rgba(0, 0, 0, 0.1); opacity: 0; transform: scale(0); -webkit-transform: scale(0); pointer-events:auto;}
 .layermborder{border:1px solid #999;}
 .layermshow .layermchild{opacity: 1; transform:scale(1); -webkit-transform: scale(1);}
 .layermbox0 .layermchild{max-width:260px; min-width:150px;}
 .layermbox1 .layermchild{border:none; border-radius:0;}
 .layermbox2 .layermchild{width:auto; max-width:260px; min-width:40px; border:none; background-color:rgba(0,0,0,.6); color:#fff;}
-.layermchild h3{padding:0 45px 0 10px; height:50px; line-height:50px; border-bottom:1px solid #EBEBEB; font-size:16px; font-weight:400;  border-radius:5px 5px 0 0; border-bottom:1px solid #EBEBEB;}
+.layermchild h3{padding:0 45px 0 10px; height:30px; line-height:30px; border-bottom:1px solid #EBEBEB; font-size:16px; font-weight:400;  border-radius:5px 5px 0 0; border-bottom:1px solid #EBEBEB;}
 .layermchild h3,
 .layermbtn span{ text-overflow:ellipsis; overflow:hidden; white-space:nowrap;}
 .layermcont{padding:20px 15px; line-height:22px; border-radius:5px;}
@@ -853,7 +853,7 @@ text{
 .layermbtn span{position:relative; display:inline-block; width:50%; text-align:center; font-size:14px; cursor:pointer; border-radius: 0 5px 0 0;}
 .layermbtn span:first-child{height:39px; background-color:#fff; border-radius: 0 0 0 5px;}
 .layermbtn:before{content:'\20'; position:absolute; width:1px; height:39px; left:50%; top:0; background-color:#EBEBEB;}
-.layermend{position:absolute; right:7px; top:10px; width:30px; height:30px; border: 0; font-weight:400; background: transparent; cursor: pointer; -webkit-appearance: none; font-size:30px;}
+.layermend{position:absolute; right:7px; top:4px; width:20px; height:20px; border: 0; font-weight:400; background: transparent; cursor: pointer; -webkit-appearance: none; font-size:30px;}
 .layermend::before, .layermend::after{position:absolute; left:5px; top:13px; content:''; width:20px; height:2px; background-color:rgba(0,0,0,.3); transform:rotate(45deg); -webkit-transform:rotate(45deg); border-radius: 3px;}
 .layermend::after{transform:rotate(-45deg);  -webkit-transform:rotate(-45deg);}
 

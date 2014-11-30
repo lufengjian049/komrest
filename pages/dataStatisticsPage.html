@@ -119,13 +119,58 @@
 			   </div>
 			   <!-- </div> -->
 			</div>
-			<div class="i-loading">
+			<div id="popbox" style="display:none">
+				<div class="mui-card" style="padding:0 10px;">
+					<form class="mui-input-group">
+						<div>
+							<label>默认时间</label>
+						</div>
+						<div class="mui-input-row mui-radio">
+							<label>季</label>
+							<input class="setTime timeq" name="time" type="radio" value="q">
+						</div>
+						<div class="mui-input-row mui-radio">
+							<label>月</label>
+							<input class="setTime timem" name="time" type="radio" value="m">
+						</div>
+						<div class="mui-input-row mui-radio">
+							<label>周</label>
+							<input class="setTime timez" name="time" type="radio" value="z">
+						</div>
+						<div>
+							<label>默认状态</label>
+						</div>
+						<div class="mui-input-row mui-radio">
+							<label>Commit已审核</label>
+							<input class="setStatus status110" name="status" type="radio" value="110">
+						</div>
+						<div class="mui-input-row mui-radio">
+							<label>Sell out审核中</label>
+							<input class="setStatus status1" name="status" type="radio" value="1">
+						</div>
+						<div class="mui-input-row mui-radio">
+							<label>Sell out已审未签</label>
+							<input class="setStatus status10" name="status" type="radio" value="10">
+						</div>
+						<div class="mui-input-row mui-radio">
+							<label>Sell out签约中</label>
+							<input class="setStatus status21" name="status" type="radio" value="21">
+						</div>
+						<div class="mui-input-row mui-radio">
+							<label>Sell out已签未付款</label>
+							<input class="setStatus status25" name="status" type="radio" value="25">
+						</div>
+						<div class="mui-input-row mui-radio">
+							<label>Sell out已签未发货</label>
+							<input class="setStatus status30" name="status" type="radio" value="30">
+						</div>
+						<div class="mui-input-row mui-radio">
+							<label>已Sell out</label>
+							<input class="setStatus status92" name="status" type="radio" value="92">
+						</div>
+					</form>
+				</div>
 			</div>
-			<section class="modal">
-		        <div class="modal-hd"></div>
-		        <div class="modal-bd"></div>
-		        <div class="modal-ft"></div>
-		    </section>
 			<input type="hidden" id="hiddentoken" />
 			<div id="contenttmp" style="display:none">
 				<div class="chartTips">
