@@ -153,7 +153,7 @@ padding: 10px 5px;white-space: nowrap;padding-right: 10px;
   }
   #othersearch{
   	display: none;position: absolute;z-index: 7;width: 100%;border-radius: 0 0 10px 10px;
-  	background:-webkit-gradient(linear,0 0,0 100%,from(#fff), to(#e4e3e3));;
+  	background:-webkit-gradient(linear,0 0,0 100%,from(#fff), to(#e4e3e3));
   	padding:0 5px;margin-left: -5px;box-shadow: 0px 1px 1px 0px #a3a3a3;padding-top: 4px;
   }
    #othersearch .mui-input-row{
@@ -332,6 +332,16 @@ margin-left: 7px;
   z-index: 100;
   display: block;
 }
+/*.cover{
+  z-index: 200;display: none;visibility: hidden;opacity: 0;
+}
+.cover.show{
+  visibility: visible;-webkit-transition: opacity 400ms;opacity: 1;display: block;
+}
+*/
+.cover.hide {
+  -webkit-transition: opacity 400ms;opacity: 0;
+}
 .view header{
   position: absolute;
 }
@@ -347,7 +357,7 @@ margin-left: 7px;
     z-index: 99;
 }
 .next{
-    display: block;
+    display: none;
     -webkit-transform: translate(100%,0) translateZ(0);
 }
 .next.in{
@@ -430,7 +440,7 @@ width: 100%;line-height: 17px;border-bottom: none;padding: 2px 10px;
 /*冲刺管理*/
 .linear-gradient-div{
 	width: 94%;margin: 5px auto;border-radius: 5px;
-	height: 200px;
+	height: 200px;position: relative;
 	/*background-image:-webkit-linear-gradient(top,#dde2e7,#93a7b2);border-radius: 5px;*/
 	background-image:-webkit-gradient(linear,left top,left bottom,from(#dde2e7),to(#93a7b2));
 }
@@ -492,23 +502,25 @@ float: right;margin-right: 4px;padding: 0 10px;margin-top: 4px;height: 26px;bord
 	top: 26px;margin-left: 6px;
 }
 .theorderwrapper .orderbg.areabg{
-	background-color: #920b1e;
+	right: 0;
+  background:-webkit-gradient(linear,right center,left center,from(#f52fa6), to(#7e0618));
 }
 .theorderwrapper .orderbg.bscbg{
-	background-color: #036a9d;
+	right: 0;
+  background:-webkit-gradient(linear,right center,left center,from(#038cca), to(#034b73));
 }
 .theorderwrapper .ordertip{
-	position: absolute;margin-left: -4px;
+	position: absolute;margin-left: -4px;left: 90%;
 }
 .theorderwrapper .wordtip{
-	position: absolute;bottom: 0;font-size: 10px;height: 14px;margin-left: 6px;
+	position: absolute;bottom: 0;font-size: 10px;height: 14px;margin-left: 6px;display: none;
 }
 div.view.cover >div{
 	width: 80%;margin: 0 auto;margin-top: 200px;position: relative;
 }
 div.view.cover .sprintStart{
-	/*width: 100%;height: 400px;*/
-	background: url("sprintstart.png") no-repeat;width: 200px;height: 70px;margin: 0 auto;
+  /*width: 100%;height: 400px;*/
+  background: url("sprintstart.png") no-repeat;width: 200px;height: 70px;margin: 0 auto;
 }
 div.view.cover .sprintStartGo{
   background: url("sprintstartgo.png") no-repeat -80px 0;width: 80px;height: 81px;margin: 0 auto;margin-top: 10px;
@@ -535,7 +547,7 @@ background-position: 0 0;
   border-spacing: 0;border: 1px solid #ccc;width: 100%;font-size: 14px;
 }
 .mtable thead tr{
-  background-color: #e5e8ea;height: 37px;
+  background-color: #FF6600;height: 37px;
 }
 .mtable thead th{
    border-bottom: 1px solid #c3c3c3;border-right: 1px solid #c3c3c3;
@@ -543,8 +555,23 @@ background-position: 0 0;
 .mtable tbody tr{
   background: #fff;
 }
-.mtable tbody tr:nth-child(0){
-	background: #;
+.mtable tbody tr:nth-child(1){
+	background: #FFCC00;
+}
+.mtable tbody tr:nth-child(2){
+  background: #FFFF99;
+}
+.mtable tbody tr:nth-child(3){
+  background: #FFFFCC;
+}
+.mtable tbody tr.agencyfirst8{
+  background: rgba(144,238,144,.7);
+}
+.mtable tbody tr.agencyitem{
+  background: rgba(255,255,0,.5);
+}
+.mtable tbody tr.agencylast8{
+  background: rgba(255,0,0,.5);
 }
 .mtable tbody td{
    border-bottom: 1px solid #c3c3c3;
@@ -552,8 +579,201 @@ background-position: 0 0;
     height: 30px;
     text-align: center;
 }
+.lastUpdatetime{
+  text-align: center;font-size: 12px;
+}
+.colorDivWrap{
+  position: absolute;right: 2px;top: 18px;
+}
+.colorDivWrap div{
+  height: 16px;
+}
+.colorDivWrap span,.colorDivWrapbottom span{
+  font-size: 12px;
+}
+.colorDivWrap .color,.colorDivWrapbottom .color{
+  display: inline-block;width: 10px;height: 10px;  border: 1px solid #ccc;
+}
+.colorDivWrapbottom{
+  position: absolute;left:0;bottom: 0;padding: 0 2px;text-align: center;width: 100%;
+}
+.colorDivWrapbottom div{
+  display: inline-block;height: 16px;margin-right: 10px;
+}
+.canvastext{
+  position: absolute;font-size: 12px;text-align: center;
+}
+.canvastext p{
+  margin: 0;font-size: 12px;line-height: 12px;
+}
+/*//弹窗*/
+/*.modal {
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}*/
+.popbox{
+  -webkit-transform: translate(0,100%);
+  background-color: rgba(255,255,255,1);
+}
+.current.popboxViewOut{
+  -webkit-transition: -webkit-transform 400ms;
+  -webkit-transform: translate(0,-100%);
+}
+.popbox.in{
+  -webkit-transition: -webkit-transform 400ms;
+  -webkit-transform: translate(0,0);
+  z-index: 999;
+}
+.popboxwrap {
+  width: 96%;margin-top: 10px auto;
+}
+.popboxwrap div{
+  text-align: center;
+}
 /*冲刺管理 end*/
+/*数据统计  start*/
+.datatab{
+  height: 42px;overflow: hidden;margin-top: 4px;
+}
+.datatab>div{
+  width: 200%;height: 40px;-webkit-transform:translateX(0);
+}
+.datatab .datatab-item{
+  display: inline-block;padding: 2px 12px;float: left;height: 100%;
+  border-bottom: 1px solid #ccc;border-right:1px solid #ccc;
+  border-top-right-radius: 10px;padding-top: 3px;
+}
+.datatab .datatab-item.active{
+  border-top: 1px solid #ccc;background-color: #ccc;padding-top: 2px;
+}
+.datatab .datatab-item.active p{
+  color: #8f8f94;
+}
+.datatab p{
+  font-size: 12px;margin-bottom: 0;color: #000;text-align: center;
+}
+.datatab p:nth-child(2){
+  line-height: 13px;
+}
+.datachart{
+  display: none;position: relative;height: 100%;opacity: 0;
+}
+.datachart.active{
+  display: block;opacity: 1;
+}
+.datachart.out{
+  opacity: 0;
+  -webkit-transition: opacity 400ms;
+}
+.datachart.in{
+  opacity: 1;
+  -webkit-transition: opacity 400ms;
+}
+.datachart .chartTips{
+  font-size: 12px;padding-left: 10px;height: 25px;
+}
+.datachart .chartTips>div{
+  float: left;
+  width: 40%;
+}
+.datachart .chartTips>div:first-child{
+  width: 20%;
+}
+.datachart .chartTips span{
+  font-size: 12px;
+}
+.datachart .chartTips em{
+  display: inline-block;width: 10px;height: 10px;margin-right: 4px;border-radius: 2px;background-color: #0762dd;
+}
+.datachart .chartTips div:last-child em{
+background-color: #ffe30f;
+}
+.filterlay{
+  position: absolute;box-shadow: inset 0 0 20px 4px #ccc;border: 1px solid #ccc;background: transparent;
+}
+.chart{
+position: absolute;z-index: 10;
+}
+#posSys{
 
+}
+path,line{
+  stroke:#ccc;stroke-width:1px;
+}
+rect.orderRect{
+  fill:url(#orderGradient)
+}
+rect.reciveRect{
+  fill:url(#ramountGradient)
+}
+text{
+  text-anchor:start;font-size: 12px;
+}
+.chartAni{
+  opacity: 0;
+}
+.chartAni.in{
+  opacity: 1;
+  -webkit-transition: opacity 1000ms;
+}
+.chartAni g{
+  opacity: .5;
+}
+.chartAni g.active{
+  opacity: 1;
+}
+.posWord{
+  text-anchor:middle;
+}
+#dataBottomSearchDiv{
+  /*margin-top: 10px;*/
+}
+.searchdivdata{
+  background-color: #ccc;padding: 2px 10px;
+}
+.searchdivdata select{
+  width: 88%;margin-bottom: 0;border: 1px solid #ccc;background-color: #fff;border-radius: 50px;
+}
+.searchdivdata .mui-placeholder{
+  height: 38px;line-height: 38px;
+}
+#dataBottomSearchDiv .searchdivdata .mui-placeholder span{
+  float: none;line-height: normal;
+}
+.searchdivdata  .mui-icon{
+  float: right;margin-top: 5px;margin-left: 6px;
+}
+.dropdownsearch select{
+  margin-bottom: 0;padding: 7px 15px;
+}
+.dropdownsearch{
+  /*margin-top: 10px;*/
+}
+.dropdownsearch>div{
+  height: 35px;border-bottom: 1px solid #ccc;line-height: 35px;display: table;width: 100%;
+}
+.dropdownsearch .searchtitle{
+  /*height: 100%;*/
+}
+.dropdownsearch>div>div{
+  display: table-cell;
+}
+.dropdownsearch>div>div:first-child{
+  width: 30%;
+}
+.dropdowntip {vertical-align: middle;}
+.dropdowntip div{
+  width: 0;height: 0;border: 10px solid transparent;border-top: 10px solid #ccc;margin: 0 auto;
+}
+/*.circle {
+  transition: stroke 0.3s, fill 0.3s;
+}
+
+.circle:hover {
+  stroke: #3399cc;
+  fill: #333333;
+}*/
+/*数据统计 end*/
 
 /*
    xingweihuang begin

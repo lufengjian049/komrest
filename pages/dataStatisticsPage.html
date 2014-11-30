@@ -11,14 +11,17 @@
 		<script src="../js/iscroll.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../js/util-d.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../js/datamjs-1.0-debug.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/layer.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 	<body>
-		<div class="view current" style="background-color: #fff">
+		<div class="view current" style="background-color: #fff;overflow:hidden">
 			<header class="mui-bar mui-bar-nav">
 				<a class="mui-action-backup mui-icon mui-icon-left-nav mui-pull-left" data-backtop="1"></a>
+				<a id="setDataInfo" class="mui-icon mui-icon-compose mui-pull-right"></a>
 				<h1 class="mui-title" id="maintitle">数据统计</h1>
 			</header>
-			<div id="container" class="mui-content" style="background-color: #fff;">
+			<div id="container" class="mui-content" style="background-color: #fff;padding-bottom:0;overflow: hidden;">
+				<!-- <div> -->
 			   <div class="datatab">
 			   		<div id="datatabWrapper">
 				   		<a status="110" class="datatab-item active" href="javascript:"><p>Commit</p><p>已审核</p></a>
@@ -30,7 +33,7 @@
 				   		<a status="92" class="datatab-item" href="javascript:"><p>已</p><p>Sell out</p></a>
 			   		</div>
 			   </div>
-			   <div id="tabcontent">
+			   <div id="tabcontent" style="margin-top:44px;">
 				   <div class="datachart active">
 				   		<div class="chartTips">
 				   			<div><label>项目数:</label><span param="num"></span></div>
@@ -114,7 +117,15 @@
 						</div>
 			   		</div>
 			   </div>
+			   <!-- </div> -->
 			</div>
+			<div class="i-loading">
+			</div>
+			<section class="modal">
+		        <div class="modal-hd"></div>
+		        <div class="modal-bd"></div>
+		        <div class="modal-ft"></div>
+		    </section>
 			<input type="hidden" id="hiddentoken" />
 			<div id="contenttmp" style="display:none">
 				<div class="chartTips">

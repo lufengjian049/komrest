@@ -131,10 +131,14 @@ $(function(){
 
 	})
 	//搜索地区 选择事件
-	$(document).on("tap",".searchdivdata",function(){
+	$(document).on("tap",".searchdivdata",function(e){
+		if(e.target == $("#searchIconDel")[0]) return;
 		var _this=$(this),wholeselectops=$("#wholearea").find("option");
 		if(wholeselectops.length){
-			wholeselectops.show();
+			wholeselectops.removeClass("mui-hidden");
+			$("#searchIconDel").removeClass("mui-hidden").show();
+			$("#wholearea").next().hide();
+			wholeselectops.eq(0).attr("selected","selected");
 		}else{
 			$.mypost(dataUrl.domain+dataUrl.myareaurl,true,{token:$("#hiddentoken").val()},function(result){
 				var arealist=result.data.arealist,options="";
@@ -146,6 +150,7 @@ $(function(){
 			},"GET");
 		}
 	})
+	//搜索 的 删除按钮
 	$(document).on("tap","#searchIconDel",function(){
 		$("#wholearea>option").addClass("mui-hidden");
 		$(this).hide().prev().show();
@@ -154,11 +159,20 @@ $(function(){
 	$(document).on("tap",".mui-action-backup",function(){
 		$.back();
 	})
+	$(document).on("tap","#setDataInfo",function(){
+		layer.open({
+		    type: 1,
+		    content: '空间任意发挥，这里可传入html',
+		    style: 'width:240px; height:180px; padding:10px; background-color:#F05133; color:#fff; border:none;'
+		});
+	})
 	drawBg();
 	//$(".chartAni").addClass("in");
 	//drawRect({"0":"","1":"","2":"","-1":"","-2":""},time);
 	getstatisdata(time);
 	drawBg2(time);
+	//new IScroll($(".scrollviewcontent"));
+	new IScroll($(".datatab"),{scrollX: true, scrollY: false});
 });
 $.back=function(){
 	window.location = "objc://goback";
@@ -181,26 +195,36 @@ function setParams(time){
 function setPageDivHeight(){
 	Util.getOs();
 	var height=Util.os.height;
-	if(height<580 && height>480){
-		dataObj.chartHeightPec=0.6;
+	// if(height<580 && height>480){
+	// 	dataObj.chartHeightPec=0.6;
+	// }
+	// if(height<680 && height>=580 ){
+	// 	dataObj.chartHeightPec=0.65;
+	// }
+	if(height > 480){
+		$(".dropdownsearch>div").css({height:"40px","line-height":"40px"});
+		$("#dataBottomSearchDiv").height("130px");
+		var chartdivheight=height-44-42-150;
 	}
-	if(height<680 && height>=580 ){
-		dataObj.chartHeightPec=0.65;
+	else{
+		$("#dataBottomSearchDiv").height("110px");
+		var chartdivheight=height-44-42-130;
 	}
-	var chartdivheight=parseInt(height*dataObj.chartHeightPec),width=Util.os.width;
+	var width=Util.os.width;
+	// chartdivheight=parseInt(height*dataObj.chartHeightPec),
 	$("#tabcontent").height(chartdivheight);
 	dataObj.svgHeight=chartdivheight-25;
 	$(".posSys").attr({"width":width,"height":chartdivheight-25,"viewBox":"0 0 "+width+" "+dataObj.svgHeight});
-	if(dataObj.chartHeightPec > 0.55){
-		$(".dropdownsearch>div").css({height:"40px","line-height":"40px"});
-	}
+	// if(dataObj.chartHeightPec > 0.55){
+	// 	$(".dropdownsearch>div").css({height:"40px","line-height":"40px"});
+	// }
 }
 function setDataTabWidth(){
 	var tabwidth=0;
 	$("a",dataObj.dataTabWrapper).each(function(){
 		tabwidth+=$(this).width();
 	});
-	dataObj.dataTabWrapper.width(tabwidth);
+	dataObj.dataTabWrapper.width(tabwidth+5);
 	return tabwidth;
 }
 //绘制背景的坐标1
