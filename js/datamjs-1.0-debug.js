@@ -30,7 +30,8 @@ var dataUrl={
 	rectSwipeWidth:null,  //手势 滑动的距离
 	cloneSVG:null,
 	params:null,
-	cloneSVGbg:null
+	cloneSVGbg:null,
+	maxPosHeight:null
 };
 $(function(){
 	window.location = "objc://setmainflag/" + JSON.stringify({flag: false});
@@ -52,8 +53,8 @@ $(function(){
 	datatabs=dataObj.dataTabWrapper.find("a");
 	dataObj.params={areaid:0,token:token,status:status};
 	//设置默认选项的设定
-	$(".setTime").filter(".time"+time).attr("checked","checked");
-	$(".setStatus").filter(".status"+status).attr("checked","checked");
+	$(".setTime").filter(".time"+time).attr("checked",'');
+	$(".setStatus").filter(".status"+status).attr("checked",'');
 	//处理默认时间 季 月 周
 	setParams(time);
 	// .before();
@@ -79,23 +80,70 @@ $(function(){
 	// 	$(this).css("transform","translateX("+swipewidth+"px)");
 	// })
 	//tab区 滑动 end
-	$(document).on("swipeRight","#qrectsvg",function(){
-		var _this=$(this),
+	//图表区滑动
+	$(document).on("swipeRight","#svgObjDiv",function(){
+		var _this=$(this).find("#qrectsvg"),
 		viewbox=_this.attr("viewBox"),viewboxarr=viewbox.split(" "),
 		x=parseInt(viewboxarr[0])-dataObj.rectSwipeWidth,
-		viewboxatt=x+" "+viewboxarr[1]+" "+viewboxarr[2]+" "+viewboxarr[3];
+		viewboxatt=x+" "+viewboxarr[1]+" "+viewboxarr[2]+" "+viewboxarr[3],
+		prevobjs=_this.find("g.active").prev();
+		if(prevobjs.index() == 1){ //前面 只有一个数据的情况下，在请求数据
+			var postext=prevobjs.find("text").html(),textarr=postext.split("Q"),smonth=(textarr[1]-1)*3; //
+			dataObj.params.start=(new Date(textarr[0],smonth,1)).format("yyyy-MM-dd");
+			dataObj.params.end=(new Date(textarr[0],smonth+3,-1)).format("yyyy-MM-dd");
+			$.mypost(dataUrl.domain+dataUrl.statisUrl,true,dataObj.params,function(result){
+				var resultdata=result.data;
+				drawSingleRect(_this,resultdata,"q",true);
+			},"GET");
+		}else{
+			var sdata={pasum:prevobjs.attr("pasum"),recesum:prevobjs.attr("recesum"),num:prevobjs.attr("num")};
+			updateproinfo(sdata);
+		}
 		Util.startMove(_this,{viewBox:viewboxatt},function(){
 			_this.find("g.active").removeClass("active").prev().addClass("active");
 		});
 	})
-	$(document).on("swipeLeft","#qrectsvg",function(){
-		var _this=$(this),
+	$(document).on("swipeLeft","#svgObjDiv",function(){
+		var _this=$(this).find("#qrectsvg"),
 		viewbox=_this.attr("viewBox"),viewboxarr=viewbox.split(" "),
 		x=parseInt(viewboxarr[0])+dataObj.rectSwipeWidth,
-		viewboxatt=x+" "+viewboxarr[1]+" "+viewboxarr[2]+" "+viewboxarr[3];
+		viewboxatt=x+" "+viewboxarr[1]+" "+viewboxarr[2]+" "+viewboxarr[3],
+		nextobjs=_this.find("g.active").next();
+		if((_this.find("g").length-nextobjs.index()) == 2){
+			var postext=nextobjs.find("text").html(),textarr=postext.split("Q"),smonth=(parseInt(textarr[1])-1)*3; //
+			dataObj.params.start=(new Date(textarr[0],smonth,1)).format("yyyy-MM-dd");
+			dataObj.params.end=(new Date(textarr[0],smonth+3,-1)).format("yyyy-MM-dd");
+			$.mypost(dataUrl.domain+dataUrl.statisUrl,true,dataObj.params,function(result){
+				var resultdata=result.data;
+				drawSingleRect(_this,resultdata,"q",false);
+			},"GET");
+		}else{
+			var sdata={pasum:nextobjs.attr("pasum"),recesum:nextobjs.attr("recesum"),num:nextobjs.attr("num")};
+			updateproinfo(sdata);
+		}
 		Util.startMove(_this,{viewBox:viewboxatt},function(){
 			_this.find("g.active").removeClass("active").next().addClass("active");
 		});
+	})
+
+	//手势 放大 缩小 事件  pinchIn pinchOut
+	$(document).on("doubleTap","#svgObjDiv",function(){
+		var activeG=$("#qrectsvg>g.active"),textdesc=activeG.find("text").html();
+		if(textdesc.indexOf("Q") > 0){ //当前是季度
+			var textarr=textdesc.split("Q"),smonth=(parseInt(textarr[1])-1)*3;
+			dataObj.params.start=(new Date(textarr[0],smonth,1)).format("yyyy-MM-dd");
+			dataObj.params.end=(new Date(textarr[0],smonth+3,-1)).format("yyyy-MM-dd");
+			dataObj.params.kind=dataObj.timeobj['m'].kind;
+			$("#qrectsvg").html();
+			$("#bgPanel2").html();
+			getstatisdata("m");
+		}else{
+			if(textdesc.indexOf("M") > 0){
+
+			}else{
+
+			}
+		}
 	})
 	//tab 切换 事件
 	$("#datatabWrapper>a").on("tap",function(){
@@ -107,14 +155,14 @@ $(function(){
 			_this.siblings().removeClass("active");
 			_this.addClass("active");
 			content.html("");
-			// if(!content.find(".chartTips").length){ //tab 已有内容
-			tmp=tmp.template({num:2,ordreamount:32.31,reciveamount:532.12});
 			content.append(tmp);
-			content.find(".chart").append(dataObj.cloneSVG);
 			contents.eq(lastIndex).addClass("out");
 			setTimeout(function(){
+				contents.eq(lastIndex).html("");
 				contents.eq(lastIndex).removeClass().addClass("datachart");
 				content.addClass("in");
+				content.find(".chart").append(dataObj.cloneSVG);
+				getstatisdata(time);
 				setTimeout(function(){
 					content.removeClass("in").addClass("active");
 				},400);
@@ -124,6 +172,8 @@ $(function(){
 	});
 	//管辖地区 选择事件  -- 根地区
 	$(document).on("change","#rootarea",function(){
+		dataObj.params.areaid=$(this).val();
+		getstatisdata(time);
 		//获取子地区 数据
 		$("#subarea").html('<option selected>全部</option>');
 		$.mypost(dataUrl.domain+dataUrl.getareaurl,true,{token:$("#hiddentoken").val(),areaid:$(this).val()},function(result){
@@ -132,7 +182,8 @@ $(function(){
 	})
 	//管辖地区 选择事件  -- 子地区
 	$(document).on("change","#subarea",function(){
-
+		dataObj.params.areaid=$(this).val();
+		getstatisdata(time);
 	})
 	//搜索地区 选择事件
 	$(document).on("tap",".searchdivdata",function(e){
@@ -163,6 +214,12 @@ $(function(){
 	$(document).on("tap",".mui-action-backup",function(){
 		$.back();
 	})
+	$(document).on("change","input[type=radio]",function(){
+		var _this=$(this);
+		if(_this.is(":checked")){
+			$("input[type=radio][name='"+_this.attr("name")+"']").removeAttr("checked");
+		}
+	})
 	$(document).on("tap","#setDataInfo",function(){
 		var curindex=layer.open({
 		    type: 1,
@@ -171,10 +228,18 @@ $(function(){
 		    style: 'width:80%; height:435px;border-radius:10px;'
 		});
 		$(".layermend").on("tap",function(){
-			var newcacheinfo=$(".setTime:checked").val()+'-'+$(".setStatus:checked").val();
+			var ctime=$(".setTime:checked").val(),cstatus=$(".setStatus:checked").val(),
+			newcacheinfo=ctime+'-'+cstatus;
 			if(newcacheinfo != cacheinfo){
 				//更新页面的信息
-
+				dataObj.params.status=cstatus;
+				setParams(ctime);
+				if(cstatus!=cacheinfo.split("-")[1]){
+					datatabs.eq(0).before(dataObj.dataTabWrapper.find("a[status='"+status+"']"));
+					dataObj.dataTabWrapper.find("a").removeClass("active").eq(0).addClass("active").trigger("tap");
+				}else{
+					getstatisdata(ctime);
+				}
 				Util.setCache(curUrl,newcacheinfo);
 			}
 		})
@@ -183,7 +248,6 @@ $(function(){
 	//$(".chartAni").addClass("in");
 	//drawRect({"0":"","1":"","2":"","-1":"","-2":""},time);
 	getstatisdata(time);
-	drawBg2(time);
 	new IScroll($(".datatab"),{scrollX: true, scrollY: false});
 });
 $.back=function(){
@@ -231,7 +295,8 @@ function setDataTabWidth(){
 }
 //绘制背景的坐标1
 function drawBg(){
-	var bgobj1=$("#bgPanel")[0],posheight=dataObj.svgHeight-dataObj.posbottom,item=parseInt((posheight-30)/5),
+	var bgobj1=$("#bgPanel",$(".datachart").eq($("#datatabWrapper>a.active").index()))[0],
+	posheight=dataObj.svgHeight-dataObj.posbottom,item=parseInt((posheight-30)/5),
 	t1=Util.makeSVG("text",{y:10,x:10});
 	dataObj.rectMaxHeight=posheight;
 	t1.textContent="(单位:万元)";
@@ -258,8 +323,11 @@ function drawBg(){
 	dataObj.cloneSVG=$("#svgObjDiv").clone();
 }
 function drawBg2(time){
-	var bgobj2=$("#bgPanel2")[0],posheight=dataObj.svgHeight-dataObj.posbottom,
+	var bgobj2=$("#bgPanel2",$(".datachart").eq($("#datatabWrapper>a.active").index())),
+	posheight=dataObj.svgHeight-dataObj.posbottom,
 	rect=Util.makeSVG("rect",{y:14,x:0,width:30,height:dataObj.svgHeight-16,fill:"#fff"});
+	bgobj2.html("");
+	bgobj2=bgobj2[0];
 	bgobj2.appendChild(rect);
 	for(var i=0;i<dataObj.bgposobjarr.length;i++){
 		dataObj.bgposobjarr[i].x2=30;
@@ -273,16 +341,54 @@ function drawBg2(time){
 	t.textContent=dataObj.timeUnit[time];
 	bgobj2.appendChild(t);
 }
+function drawSingleRect(curobj,data,time,isfirst){
+	var rectsvgdoc=curobj,dindex="",
+	gobjs=curobj.find("g"),startx=null,rectMarginWidth=dataObj.rectWidth*2+dataObj.marginWidth,
+	index=null;
+	if(isfirst){
+		dindex="-2";
+		startx=gobjs.eq(0).attr("rectx")-rectMarginWidth;
+		index=gobjs.eq(0).attr("rindex")-1;
+	}else{
+		dindex="2";
+		startx=parseInt(gobjs.last().attr("rectx"))+rectMarginWidth;
+		index=parseInt(gobjs.last().attr("rindex"))+1;
+	}
+	var curdata=data[dindex];
+	updateproinfo(data['0']);
+	var group=Util.makeSVG("g",{rectx:startx,rindex:index,pasum:curdata.pasum,recesum:curdata.recesum,num:curdata.num});
+	if(curdata.pasum >0){
+		var rect1height=((curdata.pasum/10000)/dataObj.maxPosHeight)*dataObj.posdivheight,
+		rect1=Util.makeSVG("rect",{rx:"4",ry:"4",x:startx,y:dataObj.rectMaxHeight-rect1height,width:curRectInfo.width,
+			height:rect1height,className:"orderRect"});
+			group.appendChild(rect1);
+	}
+	if(curdata.recesum >0){
+		var rect2height=((curdata.recesum/10000)/dataObj.maxPosHeight)*dataObj.posdivheight,
+		rect2=Util.makeSVG("rect",{rx:"4",ry:"4",x:startx+dataObj.rectWidth,y:dataObj.rectMaxHeight-rect2height,width:curRectInfo.width,
+			height:rect2height,className:"reciveRect"});
+			group.appendChild(rect2);
+	}
+	var textDesc=Util.makeSVG("text",{className:"posWord",y:dataObj.rectMaxHeight+15,x:startx+dataObj.rectWidth});
+	textDesc.textContent=getRectTextDesc(time,index);
+	group.appendChild(textDesc);
+	if(isfirst)
+		rectsvgdoc.prepend($(group));
+	else
+		rectsvgdoc[0].appendChild(group);
+}
 //绘制矩形
 function drawRect(data,time){
-	var rectsvgdoc=$("#qrectsvg");
+	var rectsvgdoc=$("#qrectsvg",$(".datachart").eq($("#datatabWrapper>a.active").index()));
 	var rectTem=$("#chartRectTem").html(),recthtml="",
 	rectInfo={rect:{}},centerX=Util.os.width/2-dataObj.rectWidth,
 	rectMarginWidth=dataObj.rectWidth*2+dataObj.marginWidth;//两个矩形模块 同顶点之间的间距
+	rectsvgdoc.html("");
 	dataObj.rectSwipeWidth=rectMarginWidth,
 	paramsarr=Util.getArrByN(dataObj.nwidth),maxamount=(data.ordermax > data.recemax) ? data.ordermax :data.recemax,
 	maxposy=getPosArr(maxamount);
 	updateproinfo(data["0"]);
+	dataObj.maxPosHeight=maxposy;
 	for(var i=0;i<paramsarr.length;i++){
 		var index=paramsarr[i],curDataInfo=data[index],curRectInfo={
 			fx:centerX+rectMarginWidth*index,fheight:40,sheight:100,width:dataObj.rectWidth
@@ -292,14 +398,13 @@ function drawRect(data,time){
 		curRectInfo.fy=dataObj.rectMaxHeight-curRectInfo.fheight;
 		curRectInfo.sx=curRectInfo.fx+dataObj.rectWidth;
 		curRectInfo.sy=dataObj.rectMaxHeight-curRectInfo.sheight;
-		var group=Util.makeSVG("g",{className:(index == 0) && "active"});
-		if(curDataInfo.pasum !=0){
-			if(curDataInfo.pasum)
+		var group=Util.makeSVG("g",{className:(index == 0) && "active",rectx:curRectInfo.fx,rindex:index,pasum:curDataInfo.pasum,recesum:curDataInfo.recesum,num:curDataInfo.num});
+		if(curDataInfo.pasum >0){
 			var rect1=Util.makeSVG("rect",{rx:"4",ry:"4",x:curRectInfo.fx,y:curRectInfo.fy,width:curRectInfo.width,
 			height:curRectInfo.fheight,className:"orderRect"});
 			group.appendChild(rect1);
 		}
-		if(curDataInfo.recesum !=0){
+		if(curDataInfo.recesum >0){
 			var rect2=Util.makeSVG("rect",{rx:"4",ry:"4",x:curRectInfo.sx,y:curRectInfo.sy,width:curRectInfo.width,
 			height:curRectInfo.sheight,className:"reciveRect"});
 			group.appendChild(rect2);
@@ -310,10 +415,11 @@ function drawRect(data,time){
 		rectsvgdoc[0].appendChild(group);
 	}
 	setareainfo("rootarea",data.rootareas);
+	drawBg2(time);
 }
 //更新项目数 等信息
 function updateproinfo(data){
-	$("#tabcontent .active").find(".chartTips span").each(function(){
+	$(".datachart").eq($("#datatabWrapper>a.active").index()).find(".chartTips span").each(function(){
 		var curparam=$(this).attr("param");
 		if(curparam == "num")
 			$(this).html(data[curparam]);
@@ -333,35 +439,40 @@ function getPosArr(max){
 	}else{
 		maxposarr=arrfirst;
 	}
-	if(!qtw)
+	if(!qtw){
 		maxposarr=maxposarr/10000;
+		var count=(maxposarr+"").split(".")[1].length;
+	}
 	var positem=maxposarr/5;
 	for(var i=0;i<=5;i++){
 		if(i==0)
 			dataObj.posArr[i]=">"+maxposarr;
-		else
-			dataObj.posArr[i]=maxposarr-positem*i;
+		else{
+			if(count)
+				dataObj.posArr[i]=(maxposarr-positem*i)== 0 ? 0 : (maxposarr-positem*i).toFixed(count);
+			else
+				dataObj.posArr[i]=maxposarr-positem*i;
+		}
 	}
 	return maxposarr;
 }
+//获取 坐标栏 矩形区间的描述信息
 function getRectTextDesc(type,index){
 	var str="";
 	if(type=="q"){
-		var qarr=[1,2,3,4],cindex=dataObj.currQu+index,sq=cindex,sy=0;
-		if(cindex >4){
-			sq=cindex-4;sy=parseInt(cindex/4);
-		}
-		if(cindex <=0){
-			sq=cindex+4;sy=-parseInt(cindex/4);
-		}
-		str=(dataObj.year+sy) + "Q"+sq;
+		str=(new Date(dataObj.year,dataObj.month+index*3,1)).format("yyyy-MM");
+		strarr=str.split("-");
+		str=strarr[0]+"Q"+Util.getQuarter(strarr[1]-1);
 	}
 	if(type == "m"){
 		var cmindex=dataObj.month+index;
-		str=(dataObj.year+parseInt(cmindex/12))+"M"+cmindex%12;
+		str=(new Date(dataObj.year,dataObj.month+index,1)).format("yyyy-MM");
+		str=str.replace("-","M");
 	}
 	if(type == "w"){
-
+		var timestamp=(new Date())*1 + (7*24*60*60*1000)*index;
+		var sobj=Util.getweekdate((new Date(timestamp)).format("yyyy-MM-dd"));
+		str=sobj.start.format("yy/M/d")+"~"+sobj.end.format("yy/M/d");
 	}
 	return str;
 }

@@ -102,6 +102,12 @@ var Util={
 	getQuarter:function(month){
 		return parseInt(month/3)+1;
 	},
+	getweekdate:function(curDate){
+		curDate=new Date(curDate);
+		var weekStartDate = new Date(curDate.getFullYear(), curDate.getMonth(),curDate.getDate()-curDate.getDay()+1);
+		var weekEndDate = new Date(curDate.getFullYear(), curDate.getMonth(),curDate.getDate()+(6-curDate.getDay())+1);
+		return {start:weekStartDate,end:weekEndDate};
+	},
 	getQuarterStartMonth:function(month){
 		var qstartmonth=0;
 		if(month <3)

@@ -7,7 +7,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no" />
 		<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
 		<link rel="stylesheet" type="text/css" href="../css/komh5.css"/>
-		<script src="../js/zepto.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/zepto-g.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../js/iscroll.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../js/util-d.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../js/datamjs-1.0-debug.js" type="text/javascript" charset="utf-8"></script>
@@ -121,8 +121,8 @@
 			</div>
 			<div id="popbox" style="display:none">
 				<div class="mui-card" style="padding:0 10px;">
-					<form class="mui-input-group">
-						<div>
+					<form class="mui-input-group popboxform">
+						<div style="text-align:center">
 							<label>默认时间</label>
 						</div>
 						<div class="mui-input-row mui-radio">
@@ -135,9 +135,9 @@
 						</div>
 						<div class="mui-input-row mui-radio">
 							<label>周</label>
-							<input class="setTime timez" name="time" type="radio" value="z">
+							<input class="setTime timez" name="time" type="radio" value="w">
 						</div>
-						<div>
+						<div style="text-align:center;margin-top: 15px;">
 							<label>默认状态</label>
 						</div>
 						<div class="mui-input-row mui-radio">
@@ -174,9 +174,9 @@
 			<input type="hidden" id="hiddentoken" />
 			<div id="contenttmp" style="display:none">
 				<div class="chartTips">
-		   			<div><label>项目数:</label><span param="num">@{num}</span></div>
-		   			<div><em></em><label>订单金额:</label><span param="pasum">@{ordreamount}</span></div>
-		   			<div><em></em><label>收款金额:</label><span param="recesum">@{reciveamount}</span></div>
+		   			<div><label>项目数:</label><span param="num"></span></div>
+		   			<div><em></em><label>订单金额:</label><span param="pasum"></span></div>
+		   			<div><em></em><label>收款金额:</label><span param="recesum"></span></div>
 		   		</div>
 		   		<div class="chart">
 		   		</div>

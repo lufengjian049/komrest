@@ -674,11 +674,12 @@ background-position: 0 0;
   display: block;opacity: 1;
 }
 .datachart.out{
-  opacity: 0;
+  opacity: 0.2;
   -webkit-transition: opacity 400ms;
 }
 .datachart.in{
   opacity: 1;
+  display: block;
   -webkit-transition: opacity 400ms;
 }
 .datachart .chartTips{
@@ -706,6 +707,18 @@ background-color: #ffe30f;
 .chart{
 position: absolute;z-index: 10;
 }
+.mui-card .popboxform>div{
+  border-bottom: 1px solid #ccc;height: 30px;
+}
+.mui-card .popboxform>div label{
+  padding: 7px 15px;font-size: 13px;
+}
+.mui-card .popboxform>div input:before{
+  font-size: 22px;
+}
+.mui-card .popboxform>div input:checked:before{
+color: green;
+}
 #posSys{
 
 }
@@ -719,7 +732,7 @@ rect.reciveRect{
   fill:url(#ramountGradient)
 }
 text{
-  text-anchor:start;font-size: 12px;
+  text-anchor:start;font-size: 11px;
 }
 .chartAni{
   opacity: 0;
