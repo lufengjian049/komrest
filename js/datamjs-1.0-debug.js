@@ -88,13 +88,7 @@ $(function(){
 		viewboxatt=x+" "+viewboxarr[1]+" "+viewboxarr[2]+" "+viewboxarr[3],
 		prevobjs=_this.find("g.active").prev();
 		if(prevobjs.index() == 1){ //前面 只有一个数据的情况下，在请求数据
-			var postext=prevobjs.find("text").html(),textarr=postext.split("Q"),smonth=(textarr[1]-1)*3; //
-			dataObj.params.start=(new Date(textarr[0],smonth,1)).format("yyyy-MM-dd");
-			dataObj.params.end=(new Date(textarr[0],smonth+3,-1)).format("yyyy-MM-dd");
-			$.mypost(dataUrl.domain+dataUrl.statisUrl,true,dataObj.params,function(result){
-				var resultdata=result.data;
-				drawSingleRect(_this,resultdata,"q",true);
-			},"GET");
+			getDataBySwipeObj(prevobjs,_this,true);
 		}else{
 			var sdata={pasum:prevobjs.attr("pasum"),recesum:prevobjs.attr("recesum"),num:prevobjs.attr("num")};
 			updateproinfo(sdata);
@@ -110,13 +104,7 @@ $(function(){
 		viewboxatt=x+" "+viewboxarr[1]+" "+viewboxarr[2]+" "+viewboxarr[3],
 		nextobjs=_this.find("g.active").next();
 		if((_this.find("g").length-nextobjs.index()) == 2){
-			var postext=nextobjs.find("text").html(),textarr=postext.split("Q"),smonth=(parseInt(textarr[1])-1)*3; //
-			dataObj.params.start=(new Date(textarr[0],smonth,1)).format("yyyy-MM-dd");
-			dataObj.params.end=(new Date(textarr[0],smonth+3,-1)).format("yyyy-MM-dd");
-			$.mypost(dataUrl.domain+dataUrl.statisUrl,true,dataObj.params,function(result){
-				var resultdata=result.data;
-				drawSingleRect(_this,resultdata,"q",false);
-			},"GET");
+			getDataBySwipeObj(nextobjs,_this,false);
 		}else{
 			var sdata={pasum:nextobjs.attr("pasum"),recesum:nextobjs.attr("recesum"),num:nextobjs.attr("num")};
 			updateproinfo(sdata);
@@ -131,12 +119,20 @@ $(function(){
 		var activeG=$("#qrectsvg>g.active"),textdesc=activeG.find("text").html();
 		if(textdesc.indexOf("Q") > 0){ //当前是季度
 			var textarr=textdesc.split("Q"),smonth=(parseInt(textarr[1])-1)*3;
-			dataObj.params.start=(new Date(textarr[0],smonth,1)).format("yyyy-MM-dd");
-			dataObj.params.end=(new Date(textarr[0],smonth+3,-1)).format("yyyy-MM-dd");
+			if(dataObj.month-smonth<=3){
+				dataObj.params.start=(new Date(textarr[0],dataObj.month,1)).format("yyyy-MM-dd");
+				dataObj.params.end=(new Date(textarr[0],dataObj.month+1,-1)).format("yyyy-MM-dd");
+			}else{
+				dataObj.params.start=(new Date(textarr[0],smonth,1)).format("yyyy-MM-dd");
+				dataObj.params.end=(new Date(textarr[0],smonth+1,-1)).format("yyyy-MM-dd");
+			}
 			dataObj.params.kind=dataObj.timeobj['m'].kind;
-			$("#qrectsvg").html();
-			$("#bgPanel2").html();
-			getstatisdata("m");
+			// $("#qrectsvg").html("");
+			// $("#bgPanel2").html("");
+			getstatisdata("m",dataObj.params.start);
+			//重置模板的 位移
+			var vboxarr=$("#qrectsvg").attr("viewBox").split(' ');
+			$("#qrectsvg").attr("viewBox","0 "+vboxarr.slice(1).join(" "));
 		}else{
 			if(textdesc.indexOf("M") > 0){
 
@@ -254,12 +250,12 @@ $.back=function(){
 	window.location = "objc://goback";
 }
 //获取 统计数据，并负责绘制矩形
-function getstatisdata(time,params){
+function getstatisdata(time,startdate,params){
 	params=params || dataObj.params;
 	$.mypost(dataUrl.domain+dataUrl.statisUrl,true,params,function(result){
 		var resultdata=result.data;
 		$(".chartAni").addClass("in");
-		drawRect(resultdata,time);
+		drawRect(resultdata,time,startdate);
 	},"GET");
 }
 function setParams(time){
@@ -292,6 +288,29 @@ function setDataTabWidth(){
 	});
 	dataObj.dataTabWrapper.width(tabwidth+5);
 	return tabwidth;
+}
+//左右滑动时根据 前后 对象 获取时间相关信息
+function getDataBySwipeObj(swipeObj,cursvgobj,isfirst){
+	var postext=swipeObj.find("text").html(),time;
+	if(postext.indexOf("Q") > 0){
+		var textarr=postext.split("Q"),smonth=(parseInt(textarr[1])-1)*3; //
+		dataObj.params.start=(new Date(textarr[0],smonth,1)).format("yyyy-MM-dd");
+		dataObj.params.end=(new Date(textarr[0],smonth+3,-1)).format("yyyy-MM-dd");
+		time="q";
+	}else{
+		if(postext.indexOf("M") > 0){
+			var textarr=postext.split("M"),smonth=(parseInt(textarr[1])-1);
+			dataObj.params.start=(new Date(textarr[0],smonth,1)).format("yyyy-MM-dd");
+			dataObj.params.end=(new Date(textarr[0],smonth+1,-1)).format("yyyy-MM-dd");
+			time="m";
+		}else{
+
+		}
+	}
+	$.mypost(dataUrl.domain+dataUrl.statisUrl,true,dataObj.params,function(result){
+		var resultdata=result.data;
+		drawSingleRect(cursvgobj,resultdata,time,isfirst);
+	},"GET");
 }
 //绘制背景的坐标1
 function drawBg(){
@@ -359,13 +378,13 @@ function drawSingleRect(curobj,data,time,isfirst){
 	var group=Util.makeSVG("g",{rectx:startx,rindex:index,pasum:curdata.pasum,recesum:curdata.recesum,num:curdata.num});
 	if(curdata.pasum >0){
 		var rect1height=((curdata.pasum/10000)/dataObj.maxPosHeight)*dataObj.posdivheight,
-		rect1=Util.makeSVG("rect",{rx:"4",ry:"4",x:startx,y:dataObj.rectMaxHeight-rect1height,width:curRectInfo.width,
+		rect1=Util.makeSVG("rect",{rx:"4",ry:"4",x:startx,y:dataObj.rectMaxHeight-rect1height,width:dataObj.rectWidth,
 			height:rect1height,className:"orderRect"});
 			group.appendChild(rect1);
 	}
 	if(curdata.recesum >0){
 		var rect2height=((curdata.recesum/10000)/dataObj.maxPosHeight)*dataObj.posdivheight,
-		rect2=Util.makeSVG("rect",{rx:"4",ry:"4",x:startx+dataObj.rectWidth,y:dataObj.rectMaxHeight-rect2height,width:curRectInfo.width,
+		rect2=Util.makeSVG("rect",{rx:"4",ry:"4",x:startx+dataObj.rectWidth,y:dataObj.rectMaxHeight-rect2height,width:dataObj.rectWidth,
 			height:rect2height,className:"reciveRect"});
 			group.appendChild(rect2);
 	}
@@ -378,7 +397,7 @@ function drawSingleRect(curobj,data,time,isfirst){
 		rectsvgdoc[0].appendChild(group);
 }
 //绘制矩形
-function drawRect(data,time){
+function drawRect(data,time,startdate){
 	var rectsvgdoc=$("#qrectsvg",$(".datachart").eq($("#datatabWrapper>a.active").index()));
 	var rectTem=$("#chartRectTem").html(),recthtml="",
 	rectInfo={rect:{}},centerX=Util.os.width/2-dataObj.rectWidth,
@@ -410,7 +429,7 @@ function drawRect(data,time){
 			group.appendChild(rect2);
 		}
 		var textDesc=Util.makeSVG("text",{className:"posWord",y:dataObj.rectMaxHeight+15,x:curRectInfo.sx});
-		textDesc.textContent=getRectTextDesc(time,index);
+		textDesc.textContent=getRectTextDesc(time,index,startdate);
 		group.appendChild(textDesc);
 		rectsvgdoc[0].appendChild(group);
 	}
@@ -457,16 +476,17 @@ function getPosArr(max){
 	return maxposarr;
 }
 //获取 坐标栏 矩形区间的描述信息
-function getRectTextDesc(type,index){
-	var str="";
+function getRectTextDesc(type,index,startdate){
+	var str="",dataObj1=startdate ? {year:(new Date(startdate)).getFullYear(),month:(new Date(startdate)).getMonth()}: dataObj;
+
 	if(type=="q"){
-		str=(new Date(dataObj.year,dataObj.month+index*3,1)).format("yyyy-MM");
+		str=(new Date(dataObj1.year,dataObj1.month+index*3,1)).format("yyyy-MM");
 		strarr=str.split("-");
 		str=strarr[0]+"Q"+Util.getQuarter(strarr[1]-1);
 	}
 	if(type == "m"){
-		var cmindex=dataObj.month+index;
-		str=(new Date(dataObj.year,dataObj.month+index,1)).format("yyyy-MM");
+		var cmindex=dataObj1.month+index;
+		str=(new Date(dataObj1.year,dataObj1.month+index,1)).format("yyyy-MM");
 		str=str.replace("-","M");
 	}
 	if(type == "w"){
