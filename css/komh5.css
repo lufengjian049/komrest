@@ -262,7 +262,7 @@ div.slidemenu.hide  + .view + .view.current{
 #clickdownwrapup{
 text-align: center;display: none;background: none;
 }
-.i-loading{
+.i-loading,.covertips{
 	position: fixed;width: 100%;z-index: 9900;background: rgba(255,255,255,0.1);top: 0;height: 100%;
 }
 ul.mui-table-view li.reviewitem{
@@ -331,6 +331,41 @@ margin-left: 7px;
 .current{
   z-index: 100;
   display: block;
+}
+.popover{
+  display: none;overflow: hidden;
+  position: absolute;  top: 44px;  left: 0;  width: 100%;  z-index: 999;  height: 100%;background: rgba(0,0,0,.4);
+}
+.popover ul{
+  -webkit-transform: translate(0,-64px) translateZ(0);
+}
+.popover ul.show{
+  -webkit-transition: -webkit-transform 600ms;
+  -webkit-transform: translate(0,0) translateZ(0);
+}
+.popover ul.hide{
+  -webkit-transition: -webkit-transform 600ms;
+  -webkit-transform: translate(0,-64px) translateZ(0);
+}
+.popover li{
+  text-align: center;font-size: 17px;padding: 5px 20px;
+}
+.popovertipshow{
+  -webkit-transition: -webkit-transform 600ms;
+  -webkit-transform: rotate(180deg);
+}
+.popovertiphide{
+  -webkit-transition: -webkit-transform 600ms;
+  -webkit-transform: rotate(360deg);
+}
+div.popover li.mui-radio input[type=radio]{
+  left: 20%;top: 4px;
+}
+div.popover li.mui-radio input[type=radio]:before{
+  font-size: 19px;
+}
+div.popover li input[type=radio]:checked:before{
+  color: red;
 }
 /*.cover{
   z-index: 200;display: none;visibility: hidden;opacity: 0;
@@ -435,7 +470,7 @@ width: 100%;line-height: 17px;border-bottom: none;padding: 2px 10px;
   to { -webkit-transform:rotate(360deg) translateZ(0); }
 }
 @media all and (-webkit-transform-3d){
-  a,button,input{-webkit-tap-highlight-color:rgba(255,0,0,0);}
+  a,button,input{-webkit-tap-highlight-color:rgba(0,0,0,0);}
 }
 /*冲刺管理*/
 .linear-gradient-div{
@@ -546,10 +581,16 @@ background-position: 0 0;
 .mtable{
   border-spacing: 0;border: 1px solid #ccc;width: 100%;font-size: 14px;
 }
+.dtable{
+  border-spacing: 0;border: 1px solid #ccc;width: 98%;font-size: 14px;margin: 0 auto;
+}
 .mtable thead tr{
   background-color: #FF6600;height: 37px;
 }
-.mtable thead th{
+.dtable thead tr{
+  height: 37px;
+}
+.mtable thead th,.dtable thead th{
    border-bottom: 1px solid #c3c3c3;border-right: 1px solid #c3c3c3;
 }
 .mtable tbody tr{
@@ -573,7 +614,7 @@ background-position: 0 0;
 .mtable tbody tr.agencylast8{
   background: rgba(255,0,0,.5);
 }
-.mtable tbody td{
+.mtable tbody td,.dtable tbody td{
    border-bottom: 1px solid #c3c3c3;
     border-right: 1px solid #c3c3c3;
     height: 30px;
@@ -625,7 +666,7 @@ background-position: 0 0;
   z-index: 999;
 }
 .popboxwrap {
-  width: 96%;margin-top: 10px auto;
+ 
 }
 .popboxwrap div{
   text-align: center;
@@ -645,27 +686,39 @@ background-position: 0 0;
 /*冲刺管理 end*/
 /*数据统计  start*/
 .datatab{
-  height: 42px;overflow: hidden;margin-top: 4px;position: absolute;width: 100%;
+  height: 42px;overflow: hidden;margin-top: 2px;position: absolute;width: 100%;
 }
 .datatab>div{
   width: 200%;height: 40px;position: absolute;
 }
 .datatab .datatab-item{
   display: inline-block;padding: 2px 12px;float: left;height: 100%;
-  border-bottom: 1px solid #ccc;border-right:1px solid #ccc;
-  border-top-right-radius: 10px;padding-top: 3px;
+  background: #f1f1f1;border-radius: 8px;margin-left: 5px;
+}
+.datatab .datatab-item.history{
+  display: none;
+}
+.datatab .datatab-item:first-child{
+  margin-left: 1px;
 }
 .datatab .datatab-item.active{
-  border-top: 1px solid #ccc;background-color: #ccc;padding-top: 2px;
+  background-color: #b91c22;padding-top: 2px;
 }
 .datatab .datatab-item.active p{
-  color: #8f8f94;
+  color: #fff;
 }
 .datatab p{
   font-size: 12px;margin-bottom: 0;color: #000;text-align: center;
 }
 .datatab p:nth-child(2){
   line-height: 13px;
+}
+.datatab .datatab_tips_left{
+  width: 10px;background: #fff;z-index: 10;height: 100%;box-shadow: 4px -2px 10px 2px #ccc;display: none;
+}
+.datatab .datatab_tips_right{
+  width: 10px;background: #fff;z-index: 10;height: 100%;box-shadow: 2px -2px 3px #ccc;
+  right: 0;box-shadow: -4px -2px 10px 2px #ccc;
 }
 .datachart{
   display: none;position: relative;height: 100%;opacity: 0;
@@ -732,7 +785,7 @@ rect.reciveRect{
   fill:url(#ramountGradient)
 }
 text{
-  text-anchor:start;font-size: 11px;
+  text-anchor:start;font-size: 12px;
 }
 .chartAni{
   opacity: 0;
@@ -740,6 +793,10 @@ text{
 .chartAni.in{
   opacity: 1;
   -webkit-transition: opacity 1000ms;
+}
+.chartAni.out{
+   opacity: 0;
+  -webkit-transition: opacity 400ms;
 }
 .chartAni g{
   opacity: .5;
@@ -750,13 +807,16 @@ text{
 .posWord{
   text-anchor:middle;
 }
+.posWord_w{
+  text-anchor:middle;font-size: 10px;
+}
 #dataBottomSearchDiv{
   /*margin-top: 10px;*/
 }
 .searchdivdata{
   background-color: #ccc;padding: 2px 10px;
 }
-.searchdivdata select{
+.searchdivdata select,.searchdivdata input{
   width: 88%;margin-bottom: 0;border: 1px solid #ccc;background-color: #fff;border-radius: 50px;
 }
 .searchdivdata .mui-placeholder{
@@ -775,7 +835,7 @@ text{
   /*margin-top: 10px;*/
 }
 .dropdownsearch>div{
-  height: 30px;border-bottom: 1px solid #ccc;line-height: 30px;display: table;width: 100%;
+  height: 30px;border-bottom: 1px solid #ccc;line-height: 30px;display: table;width: 100%;position: relative;
 }
 .dropdownsearch .searchtitle{
   /*height: 100%;*/
@@ -783,13 +843,85 @@ text{
 .dropdownsearch>div>div{
   display: table-cell;
 }
-.dropdownsearch>div>div:first-child{
-  width: 30%;
-}
-.dropdowntip {vertical-align: middle;}
+.dropdowntip {vertical-align: middle;position: absolute;right: 15px;top: 15px;pointer-events: none;}
 .dropdowntip div{
   width: 0;height: 0;border: 10px solid transparent;border-top: 10px solid #ccc;margin: 0 auto;
 }
+rect.rectscale{
+  transform: scale(1,1.3) translate(0,-30px);
+  -webkit-transform:scale(1,1.1) translate(0,-30px);
+  -webkit-transition: -webkit-transform 600ms;
+}
+rect.rectscale2{
+  -webkit-transform: scale(1,.5) translate(0,40px);
+  -webkit-transition: -webkit-transform 600ms;
+}
+.covertips>div{
+  width: 100%;height: 100%;background: rgba(0,0,0,.5);display: none;position: absolute;
+}
+#coverDiv .covertips_bottom{
+  height: 6%;width: 100%;display: block;bottom: 0;background: rgba(0,0,0,0);
+}
+#coverDiv .covertips_bottom>div.tipswrap{
+  left: 50%;-webkit-transform:translate(-50%);
+}
+#coverDiv .covertips_bottom>div.tipswrap>div{
+  height: 0;width: 0;border: 3px solid #a1a1a1;border-radius: 5px;display: inline-block;position: static;
+  margin-left: 8px;
+}
+#coverDiv .covertips_bottom>div.tipswrap>div.active{
+  border: 3px solid #fff;
+}
+.covertips>div>div{
+  position: absolute;
+}
+.cover_btn{
+  left: 50%;top: 50%;-webkit-transform: translate(-50%,-100%);border: 1px solid #ccc;border-radius: 5px;width: 100px;height: 30px;text-align: center;line-height: 30px;
+  color: #fff;
+}
+.firsttopdiv{
+  background: url("dataManager_cover/1.png") no-repeat;top: 35px;width: 300px;height: 152px;
+}
+.bottomnav-cover{
+  background: url("dataManager_cover/bottom.png") no-repeat center;bottom: 8px;height: 6px;width: 100%;
+}
+.centerdiv_cover{
+   background: url("dataManager_cover/2.png") no-repeat center;width: 100%;height: 250px;top: 180px;
+}
+.centerdiv_cover3{
+  background: url("dataManager_cover/3.png") no-repeat center;width: 100%;height: 320px;top: 100px;
+}
+.centerdiv_cover4{
+  background: url("dataManager_cover/4.png") no-repeat center;width: 100%;height: 124px;bottom: 24px;
+}
+#coverDiv{
+  background: rgba(255,255,255,0);
+}
+#coverDiv .cover_current{
+  display: block;
+}
+#coverDiv .cover_next{
+  display: none;
+  -webkit-transform: translate(100%,0) translateZ(0);
+}
+#coverDiv .cover_current.out {
+    -webkit-transition: -webkit-transform 600ms;
+    -webkit-transform: translate(-100%,0) translateZ(0);
+}
+#coverDiv .cover_current.outright{
+  -webkit-transition: -webkit-transform 600ms;
+  -webkit-transform: translate(100%,0) translateZ(0);
+}
+#coverDiv .cover_prev{
+  display: none;
+  -webkit-transform: translate(-100%,0) translateZ(0);
+}
+#coverDiv .cover_next.in,#coverDiv .cover_prev.in{
+  display: block;
+  -webkit-transition: -webkit-transform 400ms;
+  -webkit-transform: translate(0,0) translateZ(0);
+}
+
 /*.circle {
   transition: stroke 0.3s, fill 0.3s;
 }
@@ -834,7 +966,7 @@ text{
 .layermanim{transition: all .18s; -webkit-transition: all .18s;}
 .laymshade,
 .layermmain{position:fixed; left:0; top:0; width:100%; height:100%;}
-.laymshade{background-color:rgba(0,0,0, .5); pointer-events:auto;}
+.laymshade{background-color:rgba(0,0,0,.4); pointer-events:auto;}
 .layermmain{display:table; font-family: Helvetica, arial, sans-serif; pointer-events: none;}
 .layermmain section{display:table-cell; vertical-align:middle; text-align:center;}
 .layermchild{position:relative; display:inline-block;  text-align:left; background-color:#fff; font-size:14px; border-radius:6px; box-shadow:0 0 8px rgba(0, 0, 0, 0.1); opacity: 0; transform: scale(0); -webkit-transform: scale(0); pointer-events:auto;}
@@ -866,7 +998,8 @@ text{
 .layermbtn span{position:relative; display:inline-block; width:50%; text-align:center; font-size:14px; cursor:pointer; border-radius: 0 5px 0 0;}
 .layermbtn span:first-child{height:39px; background-color:#fff; border-radius: 0 0 0 5px;}
 .layermbtn:before{content:'\20'; position:absolute; width:1px; height:39px; left:50%; top:0; background-color:#EBEBEB;}
-.layermend{position:absolute; right:7px; top:4px; width:20px; height:20px; border: 0; font-weight:400; background: transparent; cursor: pointer; -webkit-appearance: none; font-size:30px;}
+.layermend{position:absolute; right:2px; top:2px; width:30px; height:30px; border: 0; font-weight:400; background: transparent; cursor: pointer; -webkit-appearance: none; font-size:30px;}
 .layermend::before, .layermend::after{position:absolute; left:5px; top:13px; content:''; width:20px; height:2px; background-color:rgba(0,0,0,.3); transform:rotate(45deg); -webkit-transform:rotate(45deg); border-radius: 3px;}
 .layermend::after{transform:rotate(-45deg);  -webkit-transform:rotate(-45deg);}
+.layermend:active{background-color: #fff;}
 

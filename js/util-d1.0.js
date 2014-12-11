@@ -7,10 +7,6 @@ var Util={
 	},
 	getOs:function(){
 		var ua=navigator.userAgent,android = ua.match(/(Android);?[\s\/]+([\d.]+)?/);
-		layer.open({
-			content:"ua="+ua,
-   	 		btn: ['OK']
-   	 	});
 		if(android){
 			this.os.android = true;
             this.os.version = android[2];
@@ -109,10 +105,16 @@ var Util={
 	getQuarter:function(month){
 		return parseInt(month/3)+1;
 	},
-	getweekdate:function(curDate){
+	getweekdate:function(curDate,datetype,curmonth){
 		curDate=new Date(curDate);
-		var weekStartDate = new Date(curDate.getFullYear(), curDate.getMonth(),curDate.getDate()-curDate.getDay()+1);
-		var weekEndDate = new Date(curDate.getFullYear(), curDate.getMonth(),curDate.getDate()+(6-curDate.getDay())+1);
+		var year=curDate.getFullYear(),month=curDate.getMonth(),sday=curDate.getDate()-curDate.getDay()+1,
+		eday=curDate.getDate()+(6-curDate.getDay())+1,curmonthday=this.getMonthDays(month),
+		curstartdate=new Date(year,curmonth,1),curentdate=new Date(year,curmonth,0),
+		weekStartDate = new Date(year,month,sday),weekEndDate = new Date(year,month,eday);
+		if(datetype == 1){
+			(weekStartDate<curstartdate) && (weekStartDate=curstartdate);
+			(weekEndDate>curentdate) && (weekEndDate=curentdate);
+		}
 		return {start:weekStartDate,end:weekEndDate};
 	},
 	getQuarterStartMonth:function(month){

@@ -53,10 +53,14 @@ Layer.prototype.view = function(){
     layerbox.setAttribute('index', index);
 
     var title = (function(){
-        var titype = typeof config.title === 'object';
-        return config.title
-        ? '<h3 style="'+ (titype ? config.title[1] : '') +'">'+ (titype ? config.title[0] : config.title)  +'</h3><button class="layermend"></button>'
-        : '';
+        var titype = typeof config.title === 'object',returnTitle="";
+        if(config.title){
+            returnTitle='<h3 style="'+ (titype ? config.title[1] : '') +'">'+ (titype ? config.title[0] : config.title)  +'</h3>';
+            if(!config.closeNone){
+                returnTitle+='<button class="layermend"></button>';
+            }
+        }
+        return returnTitle;
     }());
     
     var button = (function(){
@@ -126,10 +130,10 @@ Layer.prototype.action = function(config, elem){
     
     //关闭按钮
     if(config.title){
-        elem[claname]('layermend')[0].onclick = function(){
-            config.cancel && config.cancel();
-            layer.close(that.index);
-        };
+        // elem[claname]('layermend')[0].onclick = function(){
+        //     config.cancel && config.cancel();
+        //     layer.close(that.index);
+        // };
     }
     
     //确认取消
@@ -149,15 +153,15 @@ Layer.prototype.action = function(config, elem){
     }
     
     //点遮罩关闭
-    if(config.shade && config.shadeClose){
-        var shade = elem[claname]('laymshade')[0];
-        shade.onclick = function(){
-            layer.close(that.index, config.end);
-        };
-        shade.ontouchmove = function(){
-            layer.close(that.index, config.end);
-        };
-    }
+    // if(config.shade && config.shadeClose){
+    //     var shade = elem[claname]('laymshade')[0];
+    //     shade.onclick = function(){
+    //         layer.close(that.index, config.end);
+    //     };
+    //     shade.ontouchmove = function(){
+    //         layer.close(that.index, config.end);
+    //     };
+    // }
     
     config.end && (ready.end[that.index] = config.end);
 };

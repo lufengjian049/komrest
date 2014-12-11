@@ -7,36 +7,79 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no" />
 		<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
 		<link rel="stylesheet" type="text/css" href="../css/komh5.css"/>
-		<script src="../js/zepto-g.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../js/iscroll.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../js/util-d.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../js/datamjs-1.0-debug.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../js/layer.js" type="text/javascript" charset="utf-8"></script>
+		<!-- <link rel="stylesheet" type="text/css" href="../css/mcss-1.4.css"/> -->
+		 <script src="../js/zepto-g.min.js" type="text/javascript" charset="utf-8"></script>
+		 <!-- <script src="../js/datamjs-1.0.min.js" type="text/javascript" charset="utf-8"></script>  -->
+		  <script type="text/javascript" src="../js/iscroll.js" ></script>
+		  <script src="../js/util-d1.1.js" type="text/javascript" charset="utf-8"></script>
+		  <script src="../js/datamjs-1.1-debug.js" type="text/javascript" charset="utf-8"></script>
+		  <script src="../js/layer-1.0.js" type="text/javascript" charset="utf-8"></script>
 	</head>
-	<body>
+	<body style="overflow: hidden;">
+		<div id="coverDiv" class="covertips" style="display:none">
+			<div class="cover_current">
+				<div class="firsttopdiv"></div>
+			</div>
+			<div class="cover_next">
+				<div class="centerdiv_cover"></div>
+			</div>
+			<div class="cover_next">
+				<div class="centerdiv_cover3"></div>
+			</div>
+			<div class="cover_next">
+				<div class="cover_btn">点击进入</div>
+				<div class="centerdiv_cover4"></div>
+			</div>
+			<div class="covertips_bottom">
+				<div class="tipswrap"><div class="active"></div><div></div><div></div><div></div></div>
+			</div>
+		</div>
 		<div class="view current" style="background-color: #fff;overflow:hidden">
 			<header class="mui-bar mui-bar-nav">
 				<a class="mui-action-backup mui-icon mui-icon-left-nav mui-pull-left" data-backtop="1"></a>
-				<a id="setDataInfo" class="mui-icon mui-icon-compose mui-pull-right"></a>
-				<h1 class="mui-title" id="maintitle">数据统计</h1>
+				<a style="display:none" id="setDataInfo" class="mui-icon mui-icon-compose mui-pull-right"></a>
+				<h1 class="mui-title" id="maintitle"><b id="mainhead">实时数据统计</b><span class="mui-icon mui-icon-arrowdown"></span></h1>
 			</header>
+			<div class="popover">
+				<ul class="mui-table-view">
+		            <li class="mui-table-view-cell mui-radio">
+		            	<input id="datatypenow" class="" name="now" type="radio" value="1" checked>
+		            	<label for="datatypenow">实时数据统计</label>
+		            </li>
+		            <li class="mui-table-view-cell mui-radio">
+		            	<input id="datatypehistory" class="" name="now" type="radio" value="0">
+		            	<label for="datatypehistory">历史数据统计</label>
+		            </li>
+		        </ul>
+			</div>
 			<div id="container" class="mui-content" style="background-color: #fff;padding-bottom:0;overflow: hidden;">
 				<!-- <div> -->
 			   <div class="datatab">
 			   		<div id="datatabWrapper">
-				   		<a status="110" class="datatab-item active" href="javascript:"><p>Commit</p><p>已审核</p></a>
-				   		<a status="1" class="datatab-item" href="javascript:"><p>Sell out</p><p>审核中</p></a>
-				   		<a status="10" class="datatab-item" href="javascript:"><p>Sell out</p><p>已审未签</p></a>
-				   		<a status="21" class="datatab-item" href="javascript:"><p>Sell out</p><p>签约中</p></a>
-				   		<a status="25" class="datatab-item" href="javascript:"><p>Sell out</p><p>已签未付款</p></a>
-				   		<a status="30" class="datatab-item" href="javascript:"><p>Sell out</p><p>已签未发货</p></a>
-				   		<a status="92" class="datatab-item" href="javascript:"><p>已</p><p>Sell out</p></a>
+				   		<a status="92" class="datatab-item history" href="javascript:"><p>已</p><p>Sell out</p></a>
+				   		<a status="30" class="datatab-item history" href="javascript:"><p>Sell out</p><p>已签未发货</p></a>
+				   		<a status="25" class="datatab-item history" href="javascript:"><p>Sell out</p><p>已签未付款</p></a>
+				   		<a status="21" class="datatab-item history" href="javascript:"><p>Sell out</p><p>签约中</p></a>
+				   		<a status="10" class="datatab-item history" href="javascript:"><p>Sell out</p><p>已审未签</p></a>
+				   		<a status="1" class="datatab-item history" href="javascript:"><p>Sell out</p><p>审核中</p></a>
+				   		<a status="110" class="datatab-item history" href="javascript:"><p>Commit</p><p>已审核</p></a>
+				   		<a status="101" class="datatab-item realtime" href="javascript:"><p>Commit</p><p>审核中</p></a>
+				   		<a status="110" class="datatab-item realtime" href="javascript:"><p>已审未</p><p>Sell out</p></a>
+				   		<a status="1" class="datatab-item realtime" href="javascript:"><p>Sell out</p><p>审核中</p></a>
+				   		<a status="10" class="datatab-item realtime active" href="javascript:"><p>Sell out</p><p>已审未签</p></a>
+				   		<a status="21" class="datatab-item realtime" href="javascript:"><p>Sell out</p><p>签约中</p></a>
+				   		<a status="25" class="datatab-item realtime" href="javascript:"><p>Sell out</p><p>已签未付款</p></a>
+				   		<a status="30" class="datatab-item realtime" href="javascript:"><p>Sell out</p><p>已签未发货</p></a>
+				   		<a status="45" class="datatab-item realtime" href="javascript:"><p style="margin-top: 8px;">收款中</p></a>
+				   		<a status="50" class="datatab-item realtime" href="javascript:"><p style="margin-top: 8px;">完成收款</p></a>
 			   		</div>
+			   		<div class="datatab_tips_left"></div>
+			   		<div class="datatab_tips_right"></div>
 			   </div>
-			   <div id="tabcontent" style="margin-top:44px;">
+			   <div id="tabcontent" style="margin-top:44px;border-top: 1px solid #ccc;">
 				   <div class="datachart active">
 				   		<div class="chartTips">
-				   			<div><label>项目数:</label><span param="num"></span></div>
+				   			<div><label>条目数:</label><span param="num"></span></div>
 				   			<div><em></em><label>订单金额:</label><span param="pasum"></span></div>
 				   			<div><em></em><label>收款金额:</label><span param="recesum"></span></div>
 				   		</div>
@@ -61,26 +104,15 @@
 										<stop offset="100%" style="stop-color:rgb(248,126,17);
 										stop-opacity:1"/>
 									</linearGradient>
-									<filter id="f1" x="0" y="0" width="200%" height="200%">
-								      <feOffset result="offOut" in="SourceGraphic" dx="20" dy="20" />
-								      <feGaussianBlur result="blurOut" in="offOut" stdDeviation="10" />
-								      <feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
-								    </filter>
 								</defs>
 							</svg>
 				   		</div>
 				   </div>
-				   <div class="datachart"></div>
-				   <div class="datachart"></div>
-				   <div class="datachart"></div>
-				   <div class="datachart"></div>
-				   <div class="datachart"></div>
-				   <div class="datachart"></div>
 			   </div>
 			   <div id="dataBottomSearchDiv">
 			   		<div class="searchdivdata mui-search">
-			   			<!-- <input type="search" class="mui-input-clear" placeholder="" /> -->
-			   			<select id="wholearea" style="padding: 6px 20px;">
+			   			<input type="search" class="mui-input-clear" placeholder="" />
+			   			<select id="wholearea" style="padding: 6px 20px;display:none">
 			   			</select>
 			   			<span class="mui-placeholder">
 			   				<span class="mui-icon mui-icon-search"></span>搜索地区
@@ -93,12 +125,12 @@
 							<div class="mui-col-xs-4 mui-text-center searchtitle">
 								<span>根地区</span>
 							</div>
-							<div class="mui-col-xs-6 mui-text-center">
+							<div class="mui-col-xs-8 mui-text-center">
 								<select id="rootarea">
 									<option>全部</option>
 								</select>
 							</div>
-							<div class="mui-col-xs-2 dropdowntip">
+							<div class="dropdowntip">
 								<div></div>
 							</div>
 						</div>
@@ -106,12 +138,12 @@
 							<div class="mui-col-xs-4 mui-text-center searchtitle">
 								<span>子地区</span>
 							</div>
-							<div class="mui-col-xs-6 mui-text-center">
+							<div class="mui-col-xs-8 mui-text-center">
 								<select id="subarea">
 									<option selected>全部</option>
 								</select>
 							</div>
-							<div class="mui-col-xs-2 dropdowntip">
+							<div class="dropdowntip">
 								<div></div>
 							</div>
 						</div>
@@ -119,67 +151,85 @@
 			   </div>
 			   <!-- </div> -->
 			</div>
-			<div id="popbox" style="display:none">
-				<div class="mui-card" style="padding:0 10px;">
-					<form class="mui-input-group popboxform">
-						<div style="text-align:center">
-							<label>默认时间</label>
-						</div>
-						<div class="mui-input-row mui-radio">
-							<label>季</label>
-							<input class="setTime timeq" name="time" type="radio" value="q">
-						</div>
-						<div class="mui-input-row mui-radio">
-							<label>月</label>
-							<input class="setTime timem" name="time" type="radio" value="m">
-						</div>
-						<div class="mui-input-row mui-radio">
-							<label>周</label>
-							<input class="setTime timez" name="time" type="radio" value="w">
-						</div>
-						<div style="text-align:center;margin-top: 15px;">
-							<label>默认状态</label>
-						</div>
-						<div class="mui-input-row mui-radio">
-							<label>Commit已审核</label>
-							<input class="setStatus status110" name="status" type="radio" value="110">
-						</div>
-						<div class="mui-input-row mui-radio">
-							<label>Sell out审核中</label>
-							<input class="setStatus status1" name="status" type="radio" value="1">
-						</div>
-						<div class="mui-input-row mui-radio">
-							<label>Sell out已审未签</label>
-							<input class="setStatus status10" name="status" type="radio" value="10">
-						</div>
-						<div class="mui-input-row mui-radio">
-							<label>Sell out签约中</label>
-							<input class="setStatus status21" name="status" type="radio" value="21">
-						</div>
-						<div class="mui-input-row mui-radio">
-							<label>Sell out已签未付款</label>
-							<input class="setStatus status25" name="status" type="radio" value="25">
-						</div>
-						<div class="mui-input-row mui-radio">
-							<label>Sell out已签未发货</label>
-							<input class="setStatus status30" name="status" type="radio" value="30">
-						</div>
-						<div class="mui-input-row mui-radio">
-							<label>已Sell out</label>
-							<input class="setStatus status92" name="status" type="radio" value="92">
-						</div>
-					</form>
-				</div>
+		</div>
+		<div id="popbox" style="display:none">
+			<div class="mui-card" style="padding:0 10px;">
+				<form class="mui-input-group popboxform">
+					<div style="text-align:center">
+						<label>默认时间</label>
+					</div>
+					<div class="mui-input-row mui-radio">
+						<label>季</label>
+						<input class="setTime timeq" name="time" type="radio" value="q">
+					</div>
+					<div class="mui-input-row mui-radio">
+						<label>月</label>
+						<input class="setTime timem" name="time" type="radio" value="m">
+					</div>
+					<div class="mui-input-row mui-radio">
+						<label>周</label>
+						<input class="setTime timew" name="time" type="radio" value="w">
+					</div>
+					<div style="text-align:center;margin-top: 15px;">
+						<label>默认状态</label>
+					</div>
+					<div class="mui-input-row mui-radio">
+						<label>Sell out审核中</label>
+						<input class="setStatus status1" name="status" type="radio" value="1">
+					</div>
+					<div class="mui-input-row mui-radio">
+						<label>Sell out已审未签</label>
+						<input class="setStatus status10" name="status" type="radio" value="10">
+					</div>
+					<div class="mui-input-row mui-radio">
+						<label>Sell out签约中</label>
+						<input class="setStatus status21" name="status" type="radio" value="21">
+					</div>
+					<div class="mui-input-row mui-radio">
+						<label>Sell out已签未付款</label>
+						<input class="setStatus status25" name="status" type="radio" value="25">
+					</div>
+					<div class="mui-input-row mui-radio">
+						<label>Sell out已签未发货</label>
+						<input class="setStatus status30" name="status" type="radio" value="30">
+					</div>
+					<div class="mui-input-row mui-radio">
+						<label>已Sell out</label>
+						<input class="setStatus status92" name="status" type="radio" value="92">
+					</div>
+					<div class="mui-input-row mui-radio">
+						<label>Commit已审核</label>
+						<input class="setStatus status110" name="status" type="radio" value="110">
+					</div>
+				</form>
 			</div>
-			<input type="hidden" id="hiddentoken" />
-			<div id="contenttmp" style="display:none">
-				<div class="chartTips">
-		   			<div><label>项目数:</label><span param="num"></span></div>
-		   			<div><em></em><label>订单金额:</label><span param="pasum"></span></div>
-		   			<div><em></em><label>收款金额:</label><span param="recesum"></span></div>
-		   		</div>
-		   		<div class="chart">
-		   		</div>
+		</div>
+		<input type="hidden" id="hiddentoken" />
+		<div id="contenttmp" style="display:none">
+			<div class="chartTips">
+	   			<div><label>条目数:</label><span param="num"></span></div>
+	   			<div><em></em><label>订单金额:</label><span param="pasum"></span></div>
+	   			<div><em></em><label>收款金额:</label><span param="recesum"></span></div>
+	   		</div>
+	   		<div class="chart">
+	   		</div>
+		</div>
+		<div class="i-loading" style="display: none;">
+			<div class="iloadwrap">
+				<div class="mui-spinner">
+					<div class="mui-spinner-indicator mui-spinner-indicator1"></div>
+					<div class="mui-spinner-indicator mui-spinner-indicator2"></div>
+					<div class="mui-spinner-indicator mui-spinner-indicator3"></div>
+					<div class="mui-spinner-indicator mui-spinner-indicator4"></div>
+					<div class="mui-spinner-indicator mui-spinner-indicator5"></div>
+					<div class="mui-spinner-indicator mui-spinner-indicator6"></div>
+					<div class="mui-spinner-indicator mui-spinner-indicator7"></div>
+					<div class="mui-spinner-indicator mui-spinner-indicator8"></div>
+					<div class="mui-spinner-indicator mui-spinner-indicator9"></div>
+					<div class="mui-spinner-indicator mui-spinner-indicator10"></div>
+					<div class="mui-spinner-indicator mui-spinner-indicator11"></div>
+					<div class="mui-spinner-indicator mui-spinner-indicator12"></div>
+				</div>
 			</div>
 		</div>
 	</body>

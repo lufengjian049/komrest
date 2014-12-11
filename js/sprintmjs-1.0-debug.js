@@ -23,9 +23,6 @@ $(function(){
 	//判断有无季度目标
 	Util.removeAllCache();
 	Util.getOs();
-	if(Util.os.android){
-		$("#editTargetbtn").hide();
-	}
 	var date=new Date(), year=date.getFullYear(),month=date.getMonth(),quarter=Util.getQuarter(month),loadurl=sprintUrl.domain+sprintUrl.loadSprint,token=Util.getUrlParams(location.href,"token"),scrollMainObj=null;//当前季度第几个月
 	qmindex=(month-(quarter-1)*3);
 	$("#hiddentoken").val(token);
@@ -110,25 +107,46 @@ $(function(){
 	//编辑
 	$(document).on("tap","#editTargetbtn",function(){
 		//$(".current").hide();
-		var targetvaluenew=prompt("请输入新的季度目标(万)"),quartertargetval=Util.toFloat(targetvaluenew)*10000,
-		addUrl=sprintUrl.domain+sprintUrl.editSprint;
-		Util.showloadbox(true);
-		if(targetvaluenew){
-			$.mypost(addUrl,true,{token:token,year:year,quarter:quarter,targetvalue:quartertargetval},function(result){
-				sprintDataManager(result.data,'update');
-				//$("canvas").show();
-				Util.hideloadbox();
-			},"GET");
-		}else{
-			Util.hideloadbox();
-		}
-		// currentdivobj=$(".current");
-		// $(".current").addClass("popboxViewOut");
-		// $("#editpopbox").addClass("in");
-		// setTimeout(function(){
-		// 	currentdivobj.removeClass().addClass("view");
-		// 	$("#editpopbox").removeClass().addClass("view").addClass("current");
-		// },400);
+		var curindex=layer.open({
+			closeNone:true,
+		    type: 1,
+		    content: $("#popbox").html(),
+		    title:['编辑冲刺目标',"text-align:center;padding-left: 50px;"],
+		    style: 'width:80%; height:153px;border-radius:10px;',
+		    btn:["确认","取消"],
+		    success:function(){
+		    	$("#newtargetvalue",$(".layermbox")).attr("autofocus","autofocus");
+		    },
+		    yes:function(){
+		    	var targetvaluenew=$("#newtargetvalue",$(".layermbox")).val();
+		    	if(targetvaluenew){
+		    		var quartertargetval=Util.toFloat(targetvaluenew)*10000,addUrl=sprintUrl.domain+sprintUrl.editSprint;
+		    		Util.showloadbox(true);
+		    		$.mypost(addUrl,true,{token:token,year:year,quarter:quarter,targetvalue:quartertargetval},function(result){
+						sprintDataManager(result.data,'update');
+						//$("canvas").show();
+						Util.hideloadbox();
+						layer.close(curindex);
+					},"GET");
+		    	}
+		    },no:function(){
+
+		    }
+		});
+		
+		// var targetvaluenew=prompt("请输入新的季度目标(万)"),quartertargetval=Util.toFloat(targetvaluenew)*10000,
+		// addUrl=sprintUrl.domain+sprintUrl.editSprint;
+		// Util.showloadbox(true);
+		// if(targetvaluenew){
+		// 	$.mypost(addUrl,true,{token:token,year:year,quarter:quarter,targetvalue:quartertargetval},function(result){
+		// 		sprintDataManager(result.data,'update');
+		// 		//$("canvas").show();
+		// 		Util.hideloadbox();
+		// 	},"GET");
+		// }else{
+		// 	Util.hideloadbox();
+		// }
+		
 	})
 	$(document).on("tap",".modalClose",function(){
 		$("#editpopbox").removeClass().addClass("view").addClass("popbox");
